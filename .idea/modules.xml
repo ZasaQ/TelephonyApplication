@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/TelephonyApplication.iml" filepath="$PROJECT_DIR$/.idea/TelephonyApplication.iml" />
+      <module fileurl="file://$PROJECT_DIR$/telephon_application.iml" filepath="$PROJECT_DIR$/telephon_application.iml" />
+      <module fileurl="file://$PROJECT_DIR$/android/telephon_application_android.iml" filepath="$PROJECT_DIR$/android/telephon_application_android.iml" />
     </modules>
   </component>
 </project>
