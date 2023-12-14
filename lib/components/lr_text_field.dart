@@ -17,7 +17,7 @@ class LRTextField extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25.0),
         child: TextField(
-          style: TextStyle(color:Colors.grey),
+          style: TextStyle(color:Colors.grey[700]),
           controller: controller,
           obscureText: inObscureText,
           decoration: InputDecoration(
@@ -25,11 +25,12 @@ class LRTextField extends StatelessWidget {
               borderSide: BorderSide(color: Colors.grey)
             ),
             focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey.shade400)
+              borderSide: BorderSide(color: Colors.grey.shade900)
             ),
             fillColor: Colors.white,
             filled: true,
-            hintText: inHintText,            
+            hintText: inHintText,
+            hintStyle: TextStyle(color: Colors.grey[500])
           )
         )
     );
