@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:telephon_application/pages/first_page.dart';
+import 'package:telephon_application/pages/homepage.dart';
+import 'package:telephon_application/pages/profilepage.dart';
+import 'package:telephon_application/pages/settingspage.dart';
 import 'pages/login.dart';
 
 void main() => runApp(const MyApp());
@@ -10,7 +14,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: LoginPage(),
+      home: FirstPage(),
+      routes: {
+        '/secondpage' : (context) => ProfilePage(),
+        '/homepage' : (context) => HomePage(),
+        '/settingspage' : (context) => SettingsPage(),
+      },
     );
   }
 }
