@@ -5,6 +5,8 @@ import 'package:telephon_application/pages/profilepage.dart';
 import 'package:telephon_application/pages/settingspage.dart';
 import 'pages/login.dart';
 
+
+int xd=0;
 void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
