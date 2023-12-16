@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "81844163034",
+    "project_id": "telephonyapplication",
+    "storage_bucket": "telephonyapplication.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:81844163034:android:8b7dfedf60ac3eb2c4b0e3",
+        "android_client_info": {
+          "package_name": "com.example.telephon_application"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCvy2xMnHiYjeF5DhGpN65kbEjwERGZ7Wg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

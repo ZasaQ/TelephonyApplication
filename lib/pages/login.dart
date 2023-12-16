@@ -21,7 +21,13 @@ class LoginPage extends StatelessWidget {
 
               const Image(image: AssetImage('lib/images/lock_icon.png'), height: 100, width: 100,),
 
-              const SizedBox(height: 50),
+              const SizedBox(height: 30),
+
+              Center(
+                child: Text('Welcome! Try to Sign In', style: TextStyle(color: Colors.grey[600])),
+              ),
+
+              const SizedBox(height: 20),
 
               // Login text field
               LRTextField(
