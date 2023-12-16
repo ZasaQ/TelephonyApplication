@@ -9,6 +9,10 @@ class LoginPage extends StatelessWidget {
   final loginController = TextEditingController();
   final passwordController = TextEditingController();
 
+  void userSignIn() {
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,7 +66,7 @@ class LoginPage extends StatelessWidget {
               const SizedBox(height: 40),
 
               //Sign In button
-              LRButton(),
+              LRButton(onPressed: userSignIn),
 
               const SizedBox(height: 40),
 

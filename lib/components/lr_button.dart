@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class LRButton extends StatelessWidget {
-  const LRButton({super.key});
+  final Function()? onPressed;
+
+  const LRButton({super.key, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
