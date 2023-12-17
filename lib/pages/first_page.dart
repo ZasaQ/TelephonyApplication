@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:telephon_application/pages/homepage.dart';
 import 'package:telephon_application/pages/profilepage.dart';
@@ -21,6 +22,9 @@ class _FirstPageState extends State<FirstPage> {
       _selectedIndex=index;
     });
   }
+  void userSignOut() {
+    FirebaseAuth.instance.signOut();
+  }
 
   final List _pages = [
     //homepage
@@ -34,7 +38,7 @@ class _FirstPageState extends State<FirstPage> {
   @override
   Widget build(BuildContext context){
     return Scaffold(
-      appBar: AppBar(title: Text("App Bar")),
+      appBar: _appBar(),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         onTap: _navigateBottomBar,
@@ -79,6 +83,20 @@ class _FirstPageState extends State<FirstPage> {
       ),
       body: _pages[_selectedIndex],
         
+    );
+  }
+  AppBar _appBar(){
+    return AppBar(
+      backgroundColor: Colors.grey[700],
+      elevation: 0,
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Container(
+
+          )
+        ],
+      ),
     );
   }
 }

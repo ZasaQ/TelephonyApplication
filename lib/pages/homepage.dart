@@ -11,59 +11,35 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
+      backgroundColor: Colors.grey[300],
+      body: Container(
+      padding: EdgeInsets.symmetric(horizontal: 15),
+      child: Column(
         children: [
-           Container(
-              height: 50,
-              width: 100,
-              decoration: BoxDecoration(
-              color: Colors.green,
-              borderRadius: BorderRadius.circular(20),
-            ),
-
-            padding: EdgeInsets.all(25),
-            child: Text("Kontakt1", 
-              style: TextStyle(
+          Container(
+            decoration: BoxDecoration(
               color: Colors.white,
-              fontSize: 28,
-              fontWeight: FontWeight.bold,
+              borderRadius: BorderRadius.circular(20),
+
+            ),
+            child: TextField(
+              decoration: InputDecoration(
+                contentPadding: EdgeInsets.all(0),
+                prefixIcon: Icon(
+                  Icons.search, 
+                  color: Colors.grey[700], 
+                  size: 20,),
+                prefixIconConstraints: BoxConstraints(maxHeight: 20, minWidth: 25),
+                border: InputBorder.none,
+                hintText: 'Wyszukaj',
+                hintStyle: TextStyle(color:Colors.grey[700], fontSize: 20),
               ),
             ),
           ),
-          Container(
-              height: 50,
-              width: 100,
-              decoration: BoxDecoration(
-              color: Colors.green[400],
-              borderRadius: BorderRadius.circular(20),
-              ),
-              child: Text("Kontakt1", 
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-              ),
-            ),
-            ),
-         
-          Container(
-              height: 50,
-              width: 100,
-              decoration: BoxDecoration(
-              color: Colors.green[200],
-              borderRadius: BorderRadius.circular(20),
-              ),
-              child: Text("Kontakt1", 
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-              ),
-            ),
-            ),
-          
-          ],
+        ],
+      ),
       ),
     );
   }
+
 }
