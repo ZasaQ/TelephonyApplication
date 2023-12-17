@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 class DebugHomePage extends StatelessWidget {
   DebugHomePage({super.key});
 
-final currentUser = FirebaseAuth.instance.currentUser!;
+  final currentUser = FirebaseAuth.instance.currentUser!;
 
-void userSignOut() {
-  FirebaseAuth.instance.signOut();
-}
+  void userSignOut() {
+    FirebaseAuth.instance.signOut();
+  }
 
   @override
   Widget build(BuildContext context) {

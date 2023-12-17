@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 class LRButton extends StatelessWidget {
+  final String inText;
   final Function()? onPressed;
 
-  const LRButton({super.key, required this.onPressed});
+  const LRButton({super.key, required this.inText, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {    
@@ -15,7 +16,7 @@ class LRButton extends StatelessWidget {
       ),
       child: TextButton(
         onPressed: onPressed, 
-        child: Center(child: Text('Sign In',
+        child: Center(child: Text(inText,
             style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)
           ),
         )

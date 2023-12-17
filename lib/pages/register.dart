@@ -3,30 +3,30 @@ import 'package:flutter/material.dart';
 import 'package:telephon_application/components/lr_text_field.dart';
 import 'package:telephon_application/components/lr_button.dart';
 
-class LoginPage extends StatefulWidget {
-  final Function()? onSignUpTap;
-  LoginPage({super.key, required this.onSignUpTap});
+class RegisterPage extends StatefulWidget {
+  final Function()? onSignInTap;
+  RegisterPage({super.key, required this.onSignInTap});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
   //Login and Password text field controllers
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final confirmPasswordController = TextEditingController();
 
   void showAlertMessage(final String message) {
     showDialog(context: context, builder: (context) => Center(
       child: AlertDialog(
         backgroundColor: Colors.lightBlue.shade300,
-        title: Text(message, style: TextStyle(color: Colors.white), textAlign: TextAlign.center))
-    )
+        title: Text(message, style: TextStyle(color: Colors.white), textAlign: TextAlign.center)))
     );
   }
 
-  void userSignIn() async {
-    // Try to Sign In
+  void userSignUp() async {
+    // Try to Sign Up
     showDialog(context: context, builder: (context) {
       return const Center(
         child: CircularProgressIndicator(),
@@ -34,15 +34,19 @@ class _LoginPageState extends State<LoginPage> {
     });
 
     try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: emailController.text, password: passwordController.text
-      ).then((userCredential) => null);
-
-      // Pop up loading circle
-      Navigator.pop(context);
+      if (passwordController.text == confirmPasswordController.text) {
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: emailController.text, password: passwordController.text
+        );
+        Navigator.pop(context);
+      } else {
+        Navigator.pop(context);
+        return showAlertMessage('Password must be the same!');
+      }
 
     } on FirebaseAuthException catch (excep) {
       Navigator.pop(context);
+
       if (emailController.text.isEmpty || passwordController.text.isEmpty) {
         return showAlertMessage('Email and password can\'t be empty');
       } else {
@@ -63,12 +67,12 @@ class _LoginPageState extends State<LoginPage> {
               children: [
                 const SizedBox(height: 50),
         
-                const Image(image: AssetImage('lib/images/lock_icon.png'), height: 100, width: 100,),
+                const Image(image: AssetImage('lib/images/register_icon.png'), height: 80, width: 80,),
         
                 const SizedBox(height: 30),
         
                 Center(
-                  child: Text('Welcome! Try to Sign In', style: TextStyle(color: Colors.grey[600])),
+                  child: Text('Welcome! Try to Sign Up', style: TextStyle(color: Colors.grey[600])),
                 ),
         
                 const SizedBox(height: 20),
@@ -90,6 +94,15 @@ class _LoginPageState extends State<LoginPage> {
                 ),
         
                 const SizedBox(height: 10),
+
+                // Confirm passowrd text field
+                LRTextField(
+                  controller: confirmPasswordController, 
+                  inHintText: 'Confirm passowrd', 
+                  inObscureText: true
+                ),
+        
+                const SizedBox(height: 10),
         
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25.0),
@@ -105,47 +118,20 @@ class _LoginPageState extends State<LoginPage> {
         
                 const SizedBox(height: 40),
         
-                //Sign In button
-                LRButton(inText: 'Sign In', onPressed: userSignIn),
+                //Sign Up button
+                LRButton(inText: 'Sign Up', onPressed: userSignUp),
         
-                const SizedBox(height: 40),
-        
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25),
-                  child: Divider(thickness: 1, color: Colors.grey[700],),
-                ),
-        
-                Center(child: Text('Or continue with', style: TextStyle(color: Colors.grey[600]))),
-        
-                const SizedBox(height: 20),
-        
-                // Google Authentication
-                Center(
-                  child: Container(
-                    padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey.shade200),
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.grey[200]
-                    ),
-                    child: Image(
-                      image: AssetImage('lib/images/google_icon.png'), 
-                      height: 50,
-                    )
-                  ),
-                ),
-        
-                const SizedBox(height: 70),
+                const SizedBox(height: 200),
         
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('No Account? ', 
+                    Text('Have an account? ', 
                       style: TextStyle(color: Colors.grey[600])
                     ),
                     GestureDetector(
-                      onTap: widget.onSignUpTap,
-                      child: Text('Sign Up!', 
+                      onTap: widget.onSignInTap,
+                      child: Text('Sign In!', 
                         style: TextStyle(color: Colors.lightBlue.shade300, fontWeight: FontWeight.bold)
                       ),
                     )
