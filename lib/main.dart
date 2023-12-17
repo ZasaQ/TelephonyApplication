@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:telephon_application/pages/first_page.dart';
 import 'pages/login.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: LoginPage(),
+      home: FirstPage(),
     );
   }
 }
