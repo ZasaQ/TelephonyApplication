@@ -3,21 +3,54 @@ import 'package:flutter/material.dart';
 import 'package:telephon_application/components/lr_text_field.dart';
 import 'package:telephon_application/components/lr_button.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   LoginPage({super.key});
 
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
   //Login and Password text field controllers
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
-  void userSignIn() async {
-    if (emailController.text.isEmpty || passwordController.text.isEmpty) {
-      return;
-    }
-
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: emailController.text, password: passwordController.text
+  void showAlertMessage(final String message) {
+    showDialog(context: context, builder: (context) => Center(
+      child: AlertDialog(
+        backgroundColor: Colors.lightBlue.shade300,
+        title: Text(message, textAlign: TextAlign.center)))
     );
+  }
+
+  void userSignIn() async {
+    // Try to Sign In
+    showDialog(context: context, builder: (context) {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    });
+
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: emailController.text, password: passwordController.text
+      );
+
+      // Pop up loading circle
+      Navigator.pop(context);
+
+    } on FirebaseAuthException catch (excep) {
+      // Pop up loading circle
+      Navigator.pop(context);
+
+      if (emailController.text.isEmpty || passwordController.text.isEmpty) {
+        return showAlertMessage('Text fields can not be empty');
+      } else if (excep.code == 'user-not-found') {
+        return showAlertMessage('No user found for this email');
+      } else if (excep.code == 'wrong-password') {
+        return showAlertMessage('Wrong passowrd for this email');
+      }
+    }
   }
 
   @override
@@ -75,7 +108,7 @@ class LoginPage extends StatelessWidget {
                 const SizedBox(height: 40),
         
                 //Sign In button
-                LRButton(OnPressed: userSignIn),
+                LRButton(onPressed: userSignIn),
         
                 const SizedBox(height: 40),
         
@@ -113,7 +146,7 @@ class LoginPage extends StatelessWidget {
                       style: TextStyle(color: Colors.grey[600])
                     ),
                     Text('Sign Up!', 
-                      style: TextStyle(color: Colors.lightBlue, fontWeight: FontWeight.bold)
+                      style: TextStyle(color: Colors.lightBlue.shade300, fontWeight: FontWeight.bold)
                     )
                   ],
                 )
