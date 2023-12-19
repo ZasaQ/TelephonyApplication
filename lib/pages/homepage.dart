@@ -1,8 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'dart:math';
 
 import 'package:flutter/material.dart';
+
 
 
 class HomePage extends StatelessWidget {
@@ -11,12 +11,28 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(onPressed: (){}, child: Icon(Icons.person_add)),
       backgroundColor: Colors.grey[300],
       body: Container(
-      padding: EdgeInsets.symmetric(horizontal: 15),
-      child: Column(
-        children: [
-          Container(
+        padding: EdgeInsets.symmetric(horizontal: 15,vertical: 15),
+        child: Column(
+          children:[
+            searchField(),
+            ListTile(
+              leading: CircleAvatar(child: Text("T")), //first letter of contact
+              title: Text("kontakt"),
+              subtitle: Text("123456789"),
+              trailing: IconButton(icon: Icon(Icons.call), onPressed: () {},),
+            ),
+          ],
+        ),
+      ),
+      );
+  }
+
+
+  Container searchField(){
+    return Container(
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(20),
@@ -35,11 +51,20 @@ class HomePage extends StatelessWidget {
                 hintStyle: TextStyle(color:Colors.grey[700], fontSize: 20),
               ),
             ),
-          ),
-        ],
-      ),
-      ),
     );
+  
   }
 
+  ListView contactList(){
+    return ListView(
+        children: [
+          ListTile(
+            leading: CircleAvatar(child: Text("T")), //first letter of contact
+            title: Text("kontakt"),
+            subtitle: Text("123456789"),
+            trailing: IconButton(icon: Icon(Icons.call), onPressed: () {},),
+          ),
+        ],
+    );
+  }
 }

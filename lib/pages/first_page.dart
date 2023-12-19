@@ -53,9 +53,13 @@ class _FirstPageState extends State<FirstPage> {
         child: Column(
         children: [
           DrawerHeader(
-            child: Icon(
-              Icons.favorite,
-              size: 48,
+            child: Column(
+              children: [
+                CircleAvatar(
+                  maxRadius: 32,
+                  child: Text("T"), //first letter of username
+                )
+              ],
             ),  
           ),
           //home page
@@ -90,13 +94,21 @@ class _FirstPageState extends State<FirstPage> {
       backgroundColor: Colors.grey[700],
       elevation: 0,
       title: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        
         children: [
-          Container(
-
-          )
+          SizedBox(
+            height: 40,
+            width: 40,
+            child: ClipRRect(
+              child: Icon(Icons.contact_page),
+            )
+          ),
+          Text("Kontakty"),
         ],
       ),
+      actions: [
+        IconButton(onPressed: userSignOut, icon: Icon(Icons.logout, color: Colors.black,)),
+      ],
     );
   }
 }
