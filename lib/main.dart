@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'pages/login.dart';
+import 'package:telephon_application/services/authentication.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
@@ -16,8 +16,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: 'Telephony Application',
+      theme: ThemeData(colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightBlue.shade300)),
       debugShowCheckedModeBanner: false,
-      home: LoginPage(),
+      home: AuthenticationPage(),
     );
   }
 }
