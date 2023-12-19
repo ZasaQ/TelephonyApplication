@@ -23,6 +23,9 @@ class _RegisterPageState extends State<RegisterPage> {
         backgroundColor: Colors.lightBlue.shade300,
         title: Text(message, style: TextStyle(color: Colors.white), textAlign: TextAlign.center)))
     );
+    emailController.clear();
+    passwordController.clear();
+    confirmPasswordController.clear();
   }
 
   void userSignUp() async {

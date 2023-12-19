@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:telephon_application/pages/authentication.dart';
+import 'package:telephon_application/services/authentication.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 

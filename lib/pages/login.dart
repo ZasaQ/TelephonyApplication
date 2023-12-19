@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:telephon_application/components/lr_text_field.dart';
 import 'package:telephon_application/components/lr_button.dart';
+import 'package:telephon_application/services/google_auth.dart';
 
 class LoginPage extends StatefulWidget {
   final Function()? onSignUpTap;
@@ -20,9 +21,11 @@ class _LoginPageState extends State<LoginPage> {
     showDialog(context: context, builder: (context) => Center(
       child: AlertDialog(
         backgroundColor: Colors.lightBlue.shade300,
-        title: Text(message, style: TextStyle(color: Colors.white), textAlign: TextAlign.center))
-    )
-    );
+        title: Text(message, style: TextStyle(color: Colors.white), textAlign: TextAlign.center)
+        )
+    ));
+    emailController.clear();
+    passwordController.clear();
   }
 
   void userSignIn() async {
@@ -121,35 +124,41 @@ class _LoginPageState extends State<LoginPage> {
         
                 // Google Authentication
                 Center(
-                  child: Container(
-                    padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey.shade200),
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.grey[200]
+                  child: GestureDetector(
+                    onTap: () => GoogleAuth().signInWithGoogle(),
+                    child: Container(
+                      padding: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey.shade200),
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.grey[200]
+                      ),
+                      child: Image(
+                        image: AssetImage('lib/images/google_icon.png'), 
+                        height: 50,
+                      )
                     ),
-                    child: Image(
-                      image: AssetImage('lib/images/google_icon.png'), 
-                      height: 50,
-                    )
                   ),
                 ),
         
                 const SizedBox(height: 70),
         
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text('No Account? ', 
-                      style: TextStyle(color: Colors.grey[600])
-                    ),
-                    GestureDetector(
-                      onTap: widget.onSignUpTap,
-                      child: Text('Sign Up!', 
-                        style: TextStyle(color: Colors.lightBlue.shade300, fontWeight: FontWeight.bold)
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('No Account? ', 
+                        style: TextStyle(color: Colors.grey[600])
                       ),
-                    )
-                  ],
+                      GestureDetector(
+                        onTap: widget.onSignUpTap,
+                        child: Text('Sign Up!', 
+                          style: TextStyle(color: Colors.lightBlue.shade300, fontWeight: FontWeight.bold)
+                        ),
+                      )
+                    ],
+                  ),
                 )
               ],
             ),
