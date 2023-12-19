@@ -11,7 +11,12 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(onPressed: (){}, child: Icon(Icons.person_add)),
+      floatingActionButton: FloatingActionButton(
+        onPressed: (){
+          Navigator.pushNamed(context, "/add");
+        }, 
+        child: Icon(Icons.person_add),
+      ),
       backgroundColor: Colors.grey[300],
       body: Container(
         padding: EdgeInsets.symmetric(horizontal: 15,vertical: 15),
