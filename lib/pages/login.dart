@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:telephon_application/components/lr_text_field.dart';
 import 'package:telephon_application/components/lr_button.dart';
+import 'package:telephon_application/pages/forgot_password.dart';
 import 'package:telephon_application/services/google_auth.dart';
 
 class LoginPage extends StatefulWidget {
@@ -99,8 +100,13 @@ class _LoginPageState extends State<LoginPage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Text('Forgot password?',
-                        style: TextStyle(color: Colors.grey[600])
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => ForgotPasswordPage()));
+                        },
+                        child: Text('Forgot password?',
+                          style: TextStyle(color: Colors.lightBlue[300], fontWeight: FontWeight.bold)
+                        ),
                       )
                     ]
                   )
@@ -115,7 +121,7 @@ class _LoginPageState extends State<LoginPage> {
         
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25),
-                  child: Divider(thickness: 1, color: Colors.grey[700],),
+                  child: Divider(thickness: 1, color: Colors.grey[700]),
                 ),
         
                 Center(child: Text('Or continue with', style: TextStyle(color: Colors.grey[600]))),
@@ -148,7 +154,7 @@ class _LoginPageState extends State<LoginPage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('No Account? ', 
+                      Text('No account? ', 
                         style: TextStyle(color: Colors.grey[600])
                       ),
                       GestureDetector(
