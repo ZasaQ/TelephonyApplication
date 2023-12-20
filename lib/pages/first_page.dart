@@ -4,7 +4,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:telephon_application/pages/homepage.dart';
-import 'package:telephon_application/pages/profilepage.dart';
+import 'package:telephon_application/pages/messages.dart';
 import 'package:telephon_application/pages/settingspage.dart';
 
 class FirstPage extends StatefulWidget {
@@ -16,7 +16,9 @@ class FirstPage extends StatefulWidget {
 
 class _FirstPageState extends State<FirstPage> {
   int _selectedIndex = 0;
-
+  final currentUser = FirebaseAuth.instance.currentUser!;
+  TextEditingController _searchController = TextEditingController();
+  FocusNode _searchFocusNode = FocusNode();
   void _navigateBottomBar(int index){
     setState(() {
       _selectedIndex=index;
@@ -30,7 +32,7 @@ class _FirstPageState extends State<FirstPage> {
     //homepage
     HomePage(),
     //profilepage
-    ProfilePage(),
+    MessagesPage(),
     //settingspage
     SettingsPage(),
   ];
@@ -43,22 +45,24 @@ class _FirstPageState extends State<FirstPage> {
         currentIndex: _selectedIndex,
         onTap: _navigateBottomBar,
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
-          BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings'),
+          BottomNavigationBarItem(icon: Icon(Icons.person_outline), label: 'Kontakty'),
+          BottomNavigationBarItem(icon: Icon(Icons.message_outlined), label: 'Wiadomosci'),
+          BottomNavigationBarItem(icon: Icon(Icons.settings_outlined), label: 'Settings'),
         ],
       ),
       drawer: Drawer(
-        backgroundColor: const Color.fromARGB(255, 141, 141, 141),
+        backgroundColor: Colors.white,
         child: Column(
         children: [
           DrawerHeader(
             child: Column(
               children: [
                 CircleAvatar(
-                  maxRadius: 32,
-                  child: Text("T"), //first letter of username
-                )
+                  backgroundColor: Colors.grey[300],
+                  maxRadius: 52,
+                  child: Text(currentUser.email.toString()[0],style: TextStyle(fontSize: 25),), //first letter of username
+                ),
+                Text(currentUser.email.toString()),
               ],
             ),  
           ),
@@ -82,7 +86,18 @@ class _FirstPageState extends State<FirstPage> {
               Navigator.pushNamed(context, '/settingspage');
             }
           ),
+          ListTile(
+            tileColor: Colors.black,
+            leading: Icon(Icons.logout,color: Colors.white,),
+            title: Text("WYLOGUJ SIE"),
+            titleTextStyle: TextStyle(color: Colors.white),
+            onTap:(){
+              
+              userSignOut();
+            }
+          ),
         ],
+        
       ),
       ),
       body: _pages[_selectedIndex],
@@ -91,10 +106,9 @@ class _FirstPageState extends State<FirstPage> {
   }
   AppBar _appBar(){
     return AppBar(
-      backgroundColor: Colors.grey[700],
+      backgroundColor: Colors.white,
       elevation: 0,
       title: Row(
-        
         children: [
           SizedBox(
             height: 40,
@@ -109,6 +123,31 @@ class _FirstPageState extends State<FirstPage> {
       actions: [
         IconButton(onPressed: userSignOut, icon: Icon(Icons.logout, color: Colors.black,)),
       ],
+      bottom: PreferredSize(
+        preferredSize: Size(MediaQuery.of(context).size.width*8,80),
+        child: SizedBox(child: searchField()),
+      ),
+    );
+  }
+  SizedBox searchField(){
+    return SizedBox(
+            width: MediaQuery.of(context).size.width*.9,
+                child: TextFormField(
+                  onChanged: (value){
+                    setState(() {
+                      
+                    });
+                  },
+                  focusNode: _searchFocusNode,
+                  controller: _searchController,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.search),
+                    label: Text("Wyszukaj"),
+                    suffixIcon: _searchController.text.isNotEmpty? IconButton(onPressed: (){_searchController.clear();_searchFocusNode.unfocus();}, icon: Icon(Icons.close)):null,
+                  ),
+                ),
+            
     );
   }
 }

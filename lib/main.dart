@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:telephon_application/pages/first_page.dart';
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:telephon_application/pages/homepage.dart';
 import 'package:telephon_application/pages/new_contact.dart';
-import 'package:telephon_application/pages/profilepage.dart';
+import 'package:telephon_application/pages/messages.dart';
 import 'package:telephon_application/pages/settingspage.dart';
+import 'package:telephon_application/services/authentication.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -24,9 +23,9 @@ class MyApp extends StatelessWidget {
       title: 'Telephony Application',
       theme: ThemeData(colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightBlue.shade300)),
       debugShowCheckedModeBanner: false,
-      home: FirstPage(),
+      home: AuthenticationPage(),
       routes: {
-        '/secondpage' : (context) => ProfilePage(),
+        '/secondpage' : (context) => MessagesPage(),
         '/homepage' : (context) => HomePage(),
         '/settingspage' : (context) => SettingsPage(),
         '/add' : (context) => NewContact(),

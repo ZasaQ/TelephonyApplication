@@ -1,13 +1,16 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, avoid_types_as_parameter_names, non_constant_identifier_names
 
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:telephon_application/controllers/crud_services.dart';
 
 
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+   HomePage({super.key});
 
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,9 +20,42 @@ class HomePage extends StatelessWidget {
         }, 
         child: Icon(Icons.person_add),
       ),
-      backgroundColor: Colors.grey[300],
-      body: Container(
-        padding: EdgeInsets.symmetric(horizontal: 15,vertical: 15),
+      backgroundColor: Colors.white,
+      body: StreamBuilder<QuerySnapshot>(
+        stream: CrudServices().getContacts(),
+        builder: (BuildContext context,AsyncSnapshot<QuerySnapshot> snapshot){
+          if(snapshot.hasError){
+            return Text("Can't upload data");
+          }
+          if(snapshot.connectionState==ConnectionState.waiting){
+            return Center(
+              child: Text("loading"),
+
+            );
+          }
+          return ListView(
+            children:snapshot.data!.docs.map((DocumentSnapshot document){
+              Map<String,dynamic> data= document.data()! as Map<String, dynamic>;
+              return ExpansionTile(
+                leading: CircleAvatar(child: Text(data["name"][0])), //first letter of contact
+                title: Text(data["name"]),
+                subtitle: Text(data["phoneNumber"]),
+                
+                children: [
+                  ListTile(
+                    tileColor: Colors.grey[700] ,
+                    titleTextStyle: TextStyle(color: Colors.white),
+                    titleAlignment: ListTileTitleAlignment.center,
+                    title: Text("Zadzwon",style: TextStyle(fontSize: 15)),
+                    trailing: IconButton(icon: Icon(Icons.call,color: Colors.white,), onPressed: () {},),
+                  ),
+                ],
+              );
+
+            }).toList().cast(),
+          );
+        }, 
+        /*padding: EdgeInsets.symmetric(horizontal: 15,vertical: 15),
         child: Column(
           children:[
             searchField(),
@@ -29,36 +65,15 @@ class HomePage extends StatelessWidget {
               subtitle: Text("123456789"),
               trailing: IconButton(icon: Icon(Icons.call), onPressed: () {},),
             ),
-          ],
-        ),
+          ,
+        ),*/
+      
       ),
       );
   }
 
 
-  Container searchField(){
-    return Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
-
-            ),
-            child: TextField(
-              decoration: InputDecoration(
-                contentPadding: EdgeInsets.all(0),
-                prefixIcon: Icon(
-                  Icons.search, 
-                  color: Colors.grey[700], 
-                  size: 20,),
-                prefixIconConstraints: BoxConstraints(maxHeight: 20, minWidth: 25),
-                border: InputBorder.none,
-                hintText: 'Wyszukaj',
-                hintStyle: TextStyle(color:Colors.grey[700], fontSize: 20),
-              ),
-            ),
-    );
   
-  }
 
   ListView contactList(){
     return ListView(
@@ -72,4 +87,6 @@ class HomePage extends StatelessWidget {
         ],
     );
   }
+  
+  
 }
