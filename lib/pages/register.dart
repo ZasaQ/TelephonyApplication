@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:telephon_application/components/lr_text_field.dart';
 import 'package:telephon_application/components/lr_button.dart';
+import 'package:telephon_application/services/google_auth.dart';
 
 class RegisterPage extends StatefulWidget {
   final Function()? onSignInTap;
@@ -101,30 +102,46 @@ class _RegisterPageState extends State<RegisterPage> {
                 // Confirm passowrd text field
                 LRTextField(
                   controller: confirmPasswordController, 
-                  inHintText: 'Confirm passowrd', 
+                  inHintText: 'Confirm password', 
                   inObscureText: true
                 ),
-        
-                const SizedBox(height: 10),
-        
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text('Forgot password?',
-                        style: TextStyle(color: Colors.grey[600])
-                      )
-                    ]
-                  )
-                ),
-        
+                
                 const SizedBox(height: 40),
         
                 //Sign Up button
                 LRButton(inText: 'Sign Up', onPressed: userSignUp),
+
+                const SizedBox(height: 40),
+
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
+                  child: Divider(thickness: 1, color: Colors.grey[700],),
+                ),
         
-                const SizedBox(height: 200),
+                Center(child: Text('Or continue with', style: TextStyle(color: Colors.grey[600]))),
+        
+                const SizedBox(height: 20),
+        
+                // Google Authentication
+                Center(
+                  child: GestureDetector(
+                    onTap: () => GoogleAuth().signInWithGoogle(),
+                    child: Container(
+                      padding: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey.shade200),
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.grey[200]
+                      ),
+                      child: Image(
+                        image: AssetImage('lib/images/google_icon.png'), 
+                        height: 50,
+                      )
+                    ),
+                  ),
+                ),
+        
+                const SizedBox(height: 50),
         
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,

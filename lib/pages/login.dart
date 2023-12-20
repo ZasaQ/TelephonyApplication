@@ -66,7 +66,7 @@ class _LoginPageState extends State<LoginPage> {
               children: [
                 const SizedBox(height: 50),
         
-                const Image(image: AssetImage('lib/images/lock_icon.png'), height: 100, width: 100,),
+                const Image(image: AssetImage('lib/images/lock_icon.png'), height: 90, width: 90,),
         
                 const SizedBox(height: 30),
         
@@ -141,7 +141,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
         
-                const SizedBox(height: 70),
+                const SizedBox(height: 73),
         
                 Padding(
                   padding: const EdgeInsets.all(16.0),
