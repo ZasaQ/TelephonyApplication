@@ -31,26 +31,21 @@ class _RegisterPageState extends State<RegisterPage> {
 
   void userSignUp() async {
     // Try to Sign Up
-    showDialog(context: context, builder: (context) {
+    /*showDialog(context: context, builder: (context) {
       return const Center(
         child: CircularProgressIndicator(),
       );
-    });
+    });*/
 
     try {
       if (passwordController.text == confirmPasswordController.text) {
         await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: emailController.text, password: passwordController.text
         );
-        Navigator.pop(context);
       } else {
-        Navigator.pop(context);
         return showAlertMessage('Password must be the same!');
       }
-
     } on FirebaseAuthException catch (excep) {
-      Navigator.pop(context);
-
       if (emailController.text.isEmpty || passwordController.text.isEmpty) {
         return showAlertMessage('Email and password can\'t be empty');
       } else {
