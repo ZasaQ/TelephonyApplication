@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:telephon_application/components/lr_text_field.dart';
 import 'package:telephon_application/components/lr_button.dart';
+import 'package:telephon_application/controllers/crud_services.dart';
 import 'package:telephon_application/services/google_auth.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -14,7 +15,9 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   //Login and Password text field controllers
+  final CrudServices _crudServices = CrudServices();
   final emailController = TextEditingController();
+  final nameController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
 
@@ -38,10 +41,12 @@ class _RegisterPageState extends State<RegisterPage> {
     });*/
 
     try {
-      if (passwordController.text == confirmPasswordController.text) {
+      if (passwordController.text == confirmPasswordController.text && nameController.text.isNotEmpty) {
         await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: emailController.text, password: passwordController.text
         );
+        
+        _crudServices.addUser(emailController.text, nameController.text ,FirebaseAuth.instance.currentUser!.uid); 
       } else {
         return showAlertMessage('Password must be the same!');
       }
@@ -80,6 +85,15 @@ class _RegisterPageState extends State<RegisterPage> {
                 LRTextField(
                   controller: emailController, 
                   inHintText: 'Email', 
+                  inObscureText: false
+                ),
+        
+                const SizedBox(height: 10),
+
+                // Name text field
+                LRTextField(
+                  controller: nameController, 
+                  inHintText: 'Username', 
                   inObscureText: false
                 ),
         
