@@ -31,22 +31,17 @@ class _LoginPageState extends State<LoginPage> {
 
   void userSignIn() async {
     // Try to Sign In
-    showDialog(context: context, builder: (context) {
+    /*showDialog(context: context, builder: (context) {
       return const Center(
         child: CircularProgressIndicator(),
       );
-    });
+    });*/
 
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: emailController.text, password: passwordController.text
       ).then((userCredential) => null);
-
-      // Pop up loading circle
-      Navigator.pop(context);
-
     } on FirebaseAuthException catch (excep) {
-      Navigator.pop(context);
       if (emailController.text.isEmpty || passwordController.text.isEmpty) {
         return showAlertMessage('Email and password can\'t be empty');
       } else {
