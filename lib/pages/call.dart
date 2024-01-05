@@ -5,14 +5,17 @@ import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'package:telephon_application/services/call_handler.dart';
+import 'package:telephon_application/models/call_model.dart';
 import 'package:telephon_application/services/agora_settings.dart';
+import 'package:telephon_application/models/user_model.dart';
+import 'package:telephon_application/services/firestore_databases.dart';
 
 
 class CallPage extends StatefulWidget {
-  final CallHandler callHandler;
+  final UserModel user;
+  CallModel callHandler;
 
-  const CallPage({super.key, required this.callHandler});
+  CallPage({super.key, required this.user, required this.callHandler});
 
   @override
   State<CallPage> createState() => _CallPageState();
@@ -51,7 +54,7 @@ class _CallPageState extends State<CallPage> {
 
   Future<void> getToken() async {
     final response = await http.get(Uri.parse(
-        '$tokenBaseUrl/rtc/${widget.callHandler.channel}/publisher/uid/$uid?expiry=3600'));
+        '$tokenBaseUrl/rtc/${widget.callHandler.channel}/publisher/userAccount/$uid?expiry=3600'));
     if (response.statusCode == 200) {
       setState(() {
         token = jsonDecode(response.body)['rtcToken'];
@@ -74,7 +77,6 @@ class _CallPageState extends State<CallPage> {
             localUserJoined = true;
           });
           if (widget.callHandler.id == null) {
-            //MAKE A CALL
             makeCall();
           }
         },
@@ -139,7 +141,7 @@ class _CallPageState extends State<CallPage> {
 
     await rtcEngine?.joinChannel(
         token: token!,
-        channelId: widget.call.channel,
+        channelId: widget.callHandler.channel,
         uid: uid,
         options: options);
   }
@@ -178,6 +180,8 @@ class _CallPageState extends State<CallPage> {
                       rejected: snapshot.data!['rejected'],
                       connected: snapshot.data!['connected'],
                     );
+
+                    widget.callHandler = call;
 
                     return call.rejected == true
                         ? const Text("Call Declined")
@@ -232,7 +236,7 @@ class _CallPageState extends State<CallPage> {
     );
   }
 
-  Widget remoteVideo({required CallHandler callHandler}) {
+  Widget remoteVideo({required CallModel callHandler}) {
     return Stack(
       children: [
         if (remoteUid != null)
@@ -249,12 +253,24 @@ class _CallPageState extends State<CallPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  userPhoto(radius: 50, url: widget.user.photo),
-                  Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: Text(callHandler.connected == false
-                        ? "Connecting to ${widget.user.name}"
-                        : "Waiting Response"),
+                  //userPhoto(radius: 50, url: widget.user.photo),
+                  Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(20),
+                        child: Text(callHandler.connected == false
+                            ? "Connecting to ${widget.user.name}"
+                            : "Waiting Response"),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(20),
+                        child: Text('Channel name: ${widget.callHandler.channel}')
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(20),
+                        child: Text('Token: ${token.toString()}')
+                      ),
+                    ],
                   ),
                 ],
               ),

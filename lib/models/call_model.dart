@@ -1,4 +1,4 @@
-class CallHandler {
+class CallModel {
   String? id;
   String channel;
   String caller;
@@ -8,7 +8,7 @@ class CallHandler {
   bool? rejected;
   bool? connected;
 
-  CallHandler({
+  CallModel({
     required this.id,
     required this.channel,
     required this.caller,
