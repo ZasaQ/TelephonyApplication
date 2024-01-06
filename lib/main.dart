@@ -4,6 +4,7 @@ import 'package:telephon_application/pages/homepage.dart';
 import 'package:telephon_application/pages/new_contact.dart';
 import 'package:telephon_application/pages/messages.dart';
 import 'package:telephon_application/pages/new_password.dart';
+import 'package:telephon_application/pages/new_username.dart';
 import 'package:telephon_application/pages/settingspage.dart';
 import 'package:telephon_application/services/authentication.dart';
 import 'firebase_options.dart';
@@ -31,6 +32,7 @@ class MyApp extends StatelessWidget {
         '/settingspage' : (context) => SettingsPage(),
         '/add' : (context) => NewContact(),
         '/newPassword' : (context) => NewPassword(),
+        '/newUsername' : (context) => NewUsername(),
       },
     );
   }

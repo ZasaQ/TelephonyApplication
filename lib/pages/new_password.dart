@@ -23,7 +23,6 @@ class _NewPasswordState extends State<NewPassword> {
   }
   @override
   Widget build(BuildContext context) {
-    _auth.signOut();
     return Scaffold(
       appBar: AppBar(title: Text("Change password")),
       body: Center(
@@ -88,6 +87,7 @@ class _NewPasswordState extends State<NewPassword> {
                     print("Password changed");
                     _oldPasswordController.clear();
                     _newPasswordController.clear();
+                    _auth.signOut();
                   }, 
                   child: Text('Change password'),
                 ),

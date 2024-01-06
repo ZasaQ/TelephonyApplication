@@ -68,18 +68,18 @@ class _FirstPageState extends State<FirstPage> {
           ),
           //home page
           ListTile(
-            leading: Icon(Icons.home),
-            title: Text("HOME"),
+            leading: Icon(Icons.person),
+            title: Text("About"),
             onTap:(){
               //go to homepage
               Navigator.pop(context);
-              Navigator.pushNamed(context, '/homepage');
+              Navigator.pushNamed(context, '/aboutpage');
             }
           ),
           //settings page
           ListTile(
             leading: Icon(Icons.settings),
-            title: Text("SETTINGS"),
+            title: Text("Settings"),
             onTap:(){
               //go to homepage
               Navigator.pop(context);
@@ -89,7 +89,7 @@ class _FirstPageState extends State<FirstPage> {
           ListTile(
             tileColor: Colors.black,
             leading: Icon(Icons.logout,color: Colors.white,),
-            title: Text("WYLOGUJ SIE"),
+            title: Text("Log out"),
             titleTextStyle: TextStyle(color: Colors.white),
             onTap:(){
               
