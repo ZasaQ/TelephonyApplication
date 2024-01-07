@@ -33,8 +33,6 @@ class _FirstPageState extends State<FirstPage> {
     HomePage(),
     //profilepage
     MessagesPage(),
-    //settingspage
-    SettingsPage(),
   ];
 
   @override
@@ -47,7 +45,6 @@ class _FirstPageState extends State<FirstPage> {
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.person_outline), label: 'Kontakty'),
           BottomNavigationBarItem(icon: Icon(Icons.message_outlined), label: 'Wiadomosci'),
-          BottomNavigationBarItem(icon: Icon(Icons.settings_outlined), label: 'Settings'),
         ],
       ),
       drawer: Drawer(
@@ -68,18 +65,18 @@ class _FirstPageState extends State<FirstPage> {
           ),
           //home page
           ListTile(
-            leading: Icon(Icons.home),
-            title: Text("HOME"),
+            leading: Icon(Icons.person),
+            title: Text("About"),
             onTap:(){
               //go to homepage
               Navigator.pop(context);
-              Navigator.pushNamed(context, '/homepage');
+              Navigator.pushNamed(context, '/aboutpage');
             }
           ),
           //settings page
           ListTile(
             leading: Icon(Icons.settings),
-            title: Text("SETTINGS"),
+            title: Text("Settings"),
             onTap:(){
               //go to homepage
               Navigator.pop(context);
@@ -89,7 +86,7 @@ class _FirstPageState extends State<FirstPage> {
           ListTile(
             tileColor: Colors.black,
             leading: Icon(Icons.logout,color: Colors.white,),
-            title: Text("WYLOGUJ SIE"),
+            title: Text("Log out"),
             titleTextStyle: TextStyle(color: Colors.white),
             onTap:(){
               
