@@ -48,7 +48,7 @@ class _NewUsernameState extends State<NewUsername> {
                     String userName = data['name'].toString();
                     String userUid = data['uid'];
                     if(userUid==_auth.currentUser!.uid){
-                      return Text('Your current username: $userName');
+                      return Text('Your current username: $userName',style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16),);
                     }else{
                       return Container();
                     }
@@ -76,7 +76,7 @@ class _NewUsernameState extends State<NewUsername> {
                     controller: _newUsernameController,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
-                      icon: Icon(Icons.padding_sharp),
+                      icon: Icon(Icons.person_2_outlined),
                       label: Text("New username"),
                     ),
                   ),

@@ -33,8 +33,6 @@ class _FirstPageState extends State<FirstPage> {
     HomePage(),
     //profilepage
     MessagesPage(),
-    //settingspage
-    SettingsPage(),
   ];
 
   @override
@@ -47,7 +45,6 @@ class _FirstPageState extends State<FirstPage> {
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.person_outline), label: 'Kontakty'),
           BottomNavigationBarItem(icon: Icon(Icons.message_outlined), label: 'Wiadomosci'),
-          BottomNavigationBarItem(icon: Icon(Icons.settings_outlined), label: 'Settings'),
         ],
       ),
       drawer: Drawer(
