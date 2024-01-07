@@ -1,9 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:telephon_application/components/lr_text_field.dart';
 import 'package:telephon_application/components/lr_button.dart';
+import 'package:telephon_application/controllers/crud_services.dart';
+import 'package:telephon_application/controllers/getUid.dart';
 import 'package:telephon_application/pages/forgot_password.dart';
 import 'package:telephon_application/services/google_auth.dart';
+
 
 class LoginPage extends StatefulWidget {
   final Function()? onSignUpTap;
@@ -41,6 +46,17 @@ class _LoginPageState extends State<LoginPage> {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: emailController.text, password: passwordController.text
       ).then((userCredential) => null);
+      String? uid = await getUserIdByUid(FirebaseAuth.instance.currentUser!.uid.toString());
+      FirebaseMessaging.instance.getToken().then(
+        (token) async {
+
+          await FirebaseFirestore.instance.collection("Users").doc().update(
+          {
+            'tokens': FieldValue.arrayUnion([token]),
+          },
+          );
+        },
+      );
     } on FirebaseAuthException catch (excep) {
       if (emailController.text.isEmpty || passwordController.text.isEmpty) {
         return showAlertMessage('Email and password can\'t be empty');
