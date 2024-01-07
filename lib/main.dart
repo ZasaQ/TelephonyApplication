@@ -12,8 +12,6 @@ import 'package:awesome_notifications/awesome_notifications.dart';
 import 'firebase_options.dart';
 
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage remoteMessage) async {
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  //SHOW NOTIFICATION
   await NotificationServices.showNotification(remoteMessage: remoteMessage);
   await callsCollection.doc(remoteMessage.data['id']).update(
     {

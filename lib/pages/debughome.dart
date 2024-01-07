@@ -88,7 +88,7 @@ class _DebugHomeState extends State<DebugHome> {
                       name: data['name'],
                       email: data['email']);
 
-                  return user.uid == FirebaseAuth.instance.currentUser.toString()
+                  return user.uid == FirebaseAuth.instance.currentUser!.uid
                       ? const SizedBox.shrink()
                       : ListTile(
                           title: Text(user.name),
@@ -102,7 +102,7 @@ class _DebugHomeState extends State<DebugHome> {
                                       user: user,
                                       callHandler: CallModel(
                                         id: null,
-                                        channel: "${FirebaseAuth.instance.currentUser!.email}_and_${user.name}",
+                                        channel: "video${FirebaseAuth.instance.currentUser!.uid}${user.uid}",
                                         caller: FirebaseAuth.instance.currentUser!.email.toString(),
                                         called: user.name,
                                         active: null,
