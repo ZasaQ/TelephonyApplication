@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:telephon_application/components/lr_button.dart';
 import 'package:telephon_application/controllers/crud_services.dart';
 
 class NewUsername extends StatefulWidget {
@@ -31,23 +32,30 @@ class _NewUsernameState extends State<NewUsername> {
                SizedBox(
                 height: 20,
               ),
-              FutureBuilder<DocumentSnapshot>(
-              future: getUserData(_auth.currentUser!.uid), 
-              builder: (context, snapshot) {
+              StreamBuilder<QuerySnapshot>(
+              stream: FirebaseFirestore.instance.collection('Users').snapshots(), 
+              builder: (BuildContext context,AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return CircularProgressIndicator();
                 } else if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
-                } else if (snapshot.data == null || !snapshot.data!.exists) {
+                } else if (snapshot.data == null) {
                   return Text('Username not found');
                 } else {
-                  
-                  var userData = snapshot.data!.data() as Map<String, dynamic>;
-      
-                  String userName = userData['name'];
-                  String userUid = userData['uid'];
-        
-                  return Text('Your current username: $userName $userUid',style: TextStyle(fontWeight: FontWeight.w600),);
+                  return Column(
+                   children:snapshot.data!.docs.map((DocumentSnapshot document){
+                    Map<String,dynamic> data= document.data()! as Map<String, dynamic>;
+                    String userName = data['name'].toString();
+                    String userUid = data['uid'];
+                    if(userUid==_auth.currentUser!.uid){
+                      return Text('Your current username: $userName');
+                    }else{
+                      return Container();
+                    }
+            }).toList().cast(),
+            
+          );
+                  //Text('Your current username: $userName $userUid',style: TextStyle(fontWeight: FontWeight.w600),);
                 }
               },
               ),
@@ -79,11 +87,16 @@ class _NewUsernameState extends State<NewUsername> {
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: ElevatedButton(
+                child: LRButton(
+                  inText: "Change username",
                   onPressed: () async{
-                     updateUserName(_auth.currentUser!.uid, _newUsernameController.text);
+                     String userUid = _auth.currentUser!.uid;
+                     String? docId = await getUserIdByUid(userUid);
+                    
+                 
+                     updateUserName(docId.toString(), _newUsernameController.text);
                   }, 
-                  child: Text('Change username'),
+                  
                 ),
               ),
             ],
@@ -91,32 +104,29 @@ class _NewUsernameState extends State<NewUsername> {
       ),
       );
   }
-
-  Future<DocumentSnapshot<Object?>> getUserData(String userId) async {
+  Future<String?> getUserIdByUid(String currentUserId) async {
     try {
-      // Pobierz dokument użytkownika z kolekcji "users" na podstawie ID
-      DocumentSnapshot<Object?> snapshot =
-          await FirebaseFirestore.instance.collection('users').doc(userId).get();
+      QuerySnapshot<Map<String, dynamic>> querySnapshot =
+          await FirebaseFirestore.instance.collection('Users').where('uid', isEqualTo: currentUserId).get();
 
-      return snapshot;
+      if (querySnapshot.docs.isNotEmpty) {
+        return querySnapshot.docs.first.id;
+      } else {
+        return null;
+      }
     } catch (e) {
-      print('Error getting user data: $e');
-      throw e;
+      print('Error getting user ID by UID: $e');
+      return null;
     }
   }
 
-  Future<void> updateUserName(String userId, String newUserName) async {
+
+  Future updateUserName(String userId, String newUserName) async {
     try {
-     
-      DocumentReference userRef = FirebaseFirestore.instance.collection('Users').doc(userId);
-
-      await userRef.update({
-        'name': newUserName,
-      });
-
+      await FirebaseFirestore.instance.collection('Users').doc(userId).update({'name': newUserName});
       print('User Name updated successfully');
     } catch (e) {
-      print('Error updating user name: $e');
+      print('Error updating user name: $e, $userId');
     }
   }
     

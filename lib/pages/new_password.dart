@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:telephon_application/components/lr_button.dart';
 
 class NewPassword extends StatefulWidget {
   const NewPassword({super.key});
@@ -21,6 +22,7 @@ class _NewPasswordState extends State<NewPassword> {
       print(error.toString());
     });
   }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,7 +79,8 @@ class _NewPasswordState extends State<NewPassword> {
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: ElevatedButton(
+                child: LRButton(
+                  inText: "Change password",
                   onPressed: () async{
                     await changePassword(
                       email: _auth.currentUser!.email.toString(),
@@ -89,7 +92,7 @@ class _NewPasswordState extends State<NewPassword> {
                     _newPasswordController.clear();
                     _auth.signOut();
                   }, 
-                  child: Text('Change password'),
+                  
                 ),
               ),
           ],
