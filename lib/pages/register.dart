@@ -46,7 +46,7 @@ class _RegisterPageState extends State<RegisterPage> {
           email: emailController.text, password: passwordController.text
         );
         
-        _crudServices.addUser(emailController.text, nameController.text ,FirebaseAuth.instance.currentUser!.uid); 
+        _crudServices.addUser(emailController.text, nameController.text ,FirebaseAuth.instance.currentUser!.uid,""); 
       } else {
         return showAlertMessage('Password must be the same!');
       }
