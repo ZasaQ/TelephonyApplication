@@ -1,7 +1,11 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
 
+import 'dart:ffi';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:telephon_application/pages/messages.dart';
 
@@ -20,8 +24,21 @@ class _FirstPageState extends State<FirstPage> {
       _selectedIndex=index;
     });
   }
-  void userSignOut() {
-    FirebaseAuth.instance.signOut();
+  void userSignOut() async{
+    try{
+        QuerySnapshot<Map<String, dynamic>> querySnapshot =
+          await FirebaseFirestore.instance.collection('Users').where('uid', isEqualTo: currentUser!.uid).get();
+        String tokenValue = FirebaseMessaging.instance.getToken().toString();
+        await FirebaseFirestore.instance.collection("Users").doc(querySnapshot.docs.first.id).update(
+            {
+              'token': FieldValue.arrayRemove([tokenValue]),
+            },
+        );
+        print("token is empty");
+        FirebaseAuth.instance.signOut();
+    }catch (e){
+      print("Can't delete token value");
+    }
   }
 
   final List _pages = [

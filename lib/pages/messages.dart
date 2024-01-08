@@ -44,7 +44,9 @@ class _MessagesPageState extends State<MessagesPage> {
                     focusNode: _searchFocusNode,
                     controller: _searchController,
                     decoration: InputDecoration(
-                      border: OutlineInputBorder(),
+                      enabledBorder: const OutlineInputBorder(
+                       borderSide: BorderSide(color: Colors.grey)
+                      ),
                       prefixIcon: Icon(Icons.search),
                       label: Text("Search"),
                       //suffixIcon: _searchController.text.isNotEmpty? IconButton(onPressed: (){_searchController.clear();_searchFocusNode.unfocus();}, icon: Icon(Icons.close)):null,
