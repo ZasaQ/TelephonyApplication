@@ -30,7 +30,12 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(widget.userEmail)),
+      appBar: AppBar(
+        title: Text(widget.userEmail),
+        actions: [
+          IconButton(onPressed: (){}, icon: Icon(Icons.video_call, color: Colors.lightBlue,)),
+        ]
+      ),
       body: Column(
         children: [
           Expanded(

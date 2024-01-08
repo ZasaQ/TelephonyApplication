@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:telephon_application/components/lr_button.dart';
@@ -12,6 +13,7 @@ class NewContact extends StatefulWidget {
 
 class _NewContactState extends State<NewContact> {
   TextEditingController _emailController=TextEditingController();
+  bool ifEmailTrue = false;
   final _formKey=GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -50,10 +52,14 @@ class _NewContactState extends State<NewContact> {
                   ),
                   ElevatedButton(
                     onPressed: () async{
-                      bool ifEmailExists = await searchForEmail(_emailController.text);
-                      if (ifEmailExists) {
+                      bool? ifUsrEmail = await searchForEmail(_emailController.text);
+                      print(ifUsrEmail);
+                      if (ifUsrEmail.toString()==true) {
+                        print('exists');
                         Text("User exists");
+                        ifEmailTrue=true;
                       } else {
+                        print('doesnt exists');
                         Text("User doesn't exists");
                       }
                     }, 
@@ -70,9 +76,9 @@ class _NewContactState extends State<NewContact> {
                 child: LRButton(
                   inText: "Dodaj",
                   onPressed: (){
-                    if(_formKey.currentState!.validate()){
+                    if(_formKey.currentState!.validate()&& ifEmailTrue==true){
                      // CrudServices().addContacts(_nameController.text, _phoneNumberController.text, _emailController.text);
-                     
+                      
                       _emailController.clear();
                       
                     }
@@ -85,7 +91,22 @@ class _NewContactState extends State<NewContact> {
       ),
     );
   }
-  Future<List<String>> getEmailListFromFirebase() async {
+  Future<bool?> searchForEmail(String email) async {
+    try {
+      QuerySnapshot<Map<String, dynamic>> querySnapshot =
+          await FirebaseFirestore.instance.collection('Users').where('email', isEqualTo: email).get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      print('Error getting user ID by UID: $e');
+      return null;
+    }
+  }
+  /*Future<List<String>> getEmailListFromFirebase() async {
     List<String> emailList = [];
 
     try {
@@ -117,6 +138,6 @@ class _NewContactState extends State<NewContact> {
       return false;
     }
   }
-  
+  */
 
 }

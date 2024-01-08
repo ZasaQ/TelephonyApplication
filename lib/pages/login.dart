@@ -52,7 +52,7 @@ class _LoginPageState extends State<LoginPage> {
 
           await FirebaseFirestore.instance.collection("Users").doc().update(
           {
-            'tokens': FieldValue.arrayUnion([token]),
+            'token': FieldValue.arrayUnion([token]),
           },
           );
         },

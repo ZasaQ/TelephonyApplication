@@ -3,9 +3,7 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:telephon_application/pages/homepage.dart';
 import 'package:telephon_application/pages/messages.dart';
-import 'package:telephon_application/pages/settingspage.dart';
 
 class FirstPage extends StatefulWidget {
    FirstPage({super.key});
@@ -17,8 +15,6 @@ class FirstPage extends StatefulWidget {
 class _FirstPageState extends State<FirstPage> {
   int _selectedIndex = 0;
   final currentUser = FirebaseAuth.instance.currentUser!;
-  TextEditingController _searchController = TextEditingController();
-  FocusNode _searchFocusNode = FocusNode();
   void _navigateBottomBar(int index){
     setState(() {
       _selectedIndex=index;
@@ -30,7 +26,7 @@ class _FirstPageState extends State<FirstPage> {
 
   final List _pages = [
     //homepage
-    HomePage(),
+   // HomePage(),
     //profilepage
     MessagesPage(),
   ];
@@ -43,8 +39,8 @@ class _FirstPageState extends State<FirstPage> {
         currentIndex: _selectedIndex,
         onTap: _navigateBottomBar,
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.person_outline), label: 'Kontakty'),
-          BottomNavigationBarItem(icon: Icon(Icons.message_outlined), label: 'Wiadomosci'),
+          BottomNavigationBarItem(icon: Icon(Icons.person_outline), label: 'Contacts'),
+          BottomNavigationBarItem(icon: Icon(Icons.call), label: 'Calls'),
         ],
       ),
       drawer: Drawer(
@@ -120,31 +116,8 @@ class _FirstPageState extends State<FirstPage> {
       actions: [
         IconButton(onPressed: userSignOut, icon: Icon(Icons.logout, color: Colors.black,)),
       ],
-      bottom: PreferredSize(
-        preferredSize: Size(MediaQuery.of(context).size.width*8,80),
-        child: SizedBox(child: searchField()),
-      ),
+      
     );
   }
-  SizedBox searchField(){
-    return SizedBox(
-            width: MediaQuery.of(context).size.width*.9,
-                child: TextFormField(
-                  onChanged: (value){
-                    setState(() {
-                      
-                    });
-                  },
-                  focusNode: _searchFocusNode,
-                  controller: _searchController,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    prefixIcon: Icon(Icons.search),
-                    label: Text("Wyszukaj"),
-                    suffixIcon: _searchController.text.isNotEmpty? IconButton(onPressed: (){_searchController.clear();_searchFocusNode.unfocus();}, icon: Icon(Icons.close)):null,
-                  ),
-                ),
-            
-    );
-  }
+  
 }

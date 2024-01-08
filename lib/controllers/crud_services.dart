@@ -7,7 +7,6 @@ class CrudServices{
   Future addContacts(String name, String phoneNumber, String email)async{
     Map<String,dynamic> contactData ={
       "name":name,
-      "phoneNumber":phoneNumber,
       "email":email
     };
     try{
