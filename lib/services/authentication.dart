@@ -15,7 +15,7 @@ class AuthenticationPage extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             String? email = snapshot.data!.email;
-            if (email == "debug@gmail.com") {
+            if (true) {
               return DebugHome(receivedAction: null);
             } else {
               return FirstPage();

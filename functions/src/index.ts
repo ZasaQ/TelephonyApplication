@@ -1,16 +1,5 @@
-/**
- * Import function triggers from their respective submodules:
- *
- * import {onCall} from "firebase-functions/v2/https";
- * import {onDocumentWritten} from "firebase-functions/v2/firestore";
- *
- * See a full list of supported triggers at https://firebase.google.com/docs/functions
- */
-
-import {onRequest} from "firebase-functions/v2/https";
-import * as logger from "firebase-functions/logger";
-import * as admin from "firebase-admin";
 import * as functions from "firebase-functions";
+import * as admin from "firebase-admin";
 import {DocumentData} from "firebase-admin/firestore";
 
 admin.initializeApp();
@@ -20,28 +9,28 @@ export const makeCall = functions.firestore
   .onCreate(async (callSnapshot) => {
     const call = callSnapshot.data();
     let callerData: DocumentData;
-    let tokens: string | string[] = [];
+    let tokens: string;
     const users = admin.firestore().collection("Users").get();
     users
       .then((usersSnapshot) => {
         usersSnapshot.forEach(async (userDoc) => {
           const user = userDoc.data();
-          if (user.uid == call.caller) {
+          if (user.email == call.caller) {
             callerData = user;
           }
-          if (user.uid == call.called) {
-            tokens = user.tokens;
+          if (user.email == call.called) {
+            tokens = user.token;
           }
         });
       })
-      .then(async (doc) => {
+      .then(async () => {
         if (call.active == true) {
           const callPayload = {
             data: {
-              user: callerData.uid,
+              uid: callerData.uid,
               name: callerData.name,
               email: callerData.email,
-              id: call.uid,
+              id: call.id,
               channel: call.channel,
               caller: call.caller,
               called: call.called,
@@ -50,16 +39,12 @@ export const makeCall = functions.firestore
               rejected: call.rejected.toString(),
               connected: call.connected.toString(),
             },
+            token: tokens,
           };
-          await admin.messaging().sendToDevice(tokens, callPayload);
+          functions.logger.log("Debug info caller: "+call.caller);
+          functions.logger.log("Debug info called: "+call.called);
+          functions.logger.log("Debug info tokens: "+tokens);
+          await admin.messaging().send(callPayload);
         }
       });
   });
-
-// Start writing functions
-// https://firebase.google.com/docs/functions/typescript
-
-// export const helloWorld = onRequest((request, response) => {
-//   logger.info("Hello logs!", {structuredData: true});
-//   response.send("Hello from Firebase!");
-// });

@@ -49,12 +49,10 @@ class _LoginPageState extends State<LoginPage> {
       String? uid = await getUserIdByUid(FirebaseAuth.instance.currentUser!.uid.toString());
       FirebaseMessaging.instance.getToken().then(
         (token) async {
-
-          await FirebaseFirestore.instance.collection("Users").doc().update(
+          await FirebaseFirestore.instance.collection("Users").doc(uid).update(
           {
-            'tokens': FieldValue.arrayUnion([token]),
-          },
-          );
+            'token': token,
+          });
         },
       );
     } on FirebaseAuthException catch (excep) {

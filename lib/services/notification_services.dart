@@ -41,7 +41,7 @@ class NotificationServices {
       ReceivedAction receivedAction) async {
     if (receivedAction.buttonKeyPressed == "ACCEPT") {
       MyApp.navigatorKey.currentState?.pushNamedAndRemoveUntil(
-          '/homepage', (route) => (route.settings.name != '/homepage') || route.isFirst,
+          '/debugHome', (route) => (route.settings.name != '/debugHome') || route.isFirst,
           arguments: receivedAction);
     }
     if (receivedAction.buttonKeyPressed == "REJECT") {
@@ -69,7 +69,7 @@ class NotificationServices {
         wakeUpScreen: true,
         backgroundColor: Colors.transparent,
         payload: {
-          'user': remoteMessage.data['user'],
+          'uid': remoteMessage.data['uid'],
           'name': remoteMessage.data['name'],
           'email': remoteMessage.data['email'],
           'id': remoteMessage.data['id'],

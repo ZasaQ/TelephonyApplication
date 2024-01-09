@@ -9,6 +9,7 @@ import 'package:telephon_application/pages/call.dart';
 import 'package:telephon_application/models/call_model.dart';
 import 'package:telephon_application/services/firestore_databases.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:telephon_application/services/notification_services.dart';
 
 class DebugHome extends StatefulWidget {
   final ReceivedAction? receivedAction;
@@ -66,8 +67,8 @@ class _DebugHomeState extends State<DebugHome> {
           backgroundColor: Colors.white,
           elevation: 0,
           centerTitle: true,
-          title: const Text(
-            "xD",
+          title: Text(
+            "${FirebaseAuth.instance.currentUser!.email}",
             style: TextStyle(
               color: Colors.black,
             ),
@@ -104,7 +105,7 @@ class _DebugHomeState extends State<DebugHome> {
                                         id: null,
                                         channel: "video${FirebaseAuth.instance.currentUser!.uid}${user.uid}",
                                         caller: FirebaseAuth.instance.currentUser!.email.toString(),
-                                        called: user.name,
+                                        called: user.email,
                                         active: null,
                                         accepted: null,
                                         rejected: null,
