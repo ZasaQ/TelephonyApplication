@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:telephon_application/pages/about_page.dart';
 import 'package:telephon_application/pages/homepage.dart';
 import 'package:telephon_application/pages/new_chat.dart';
 import 'package:telephon_application/pages/new_contact.dart';
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
         '/homepage' : (context) => HomePage(),
         '/settingspage' : (context) => SettingsPage(),
         '/add' : (context) => NewContact(),
+        '/aboutpage' : (context) => AboutPage(),
         '/newPassword' : (context) => NewPassword(),
         '/newUsername' : (context) => NewUsername(),
         '/newChat' : (context) => NewChat(),

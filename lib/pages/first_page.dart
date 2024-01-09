@@ -7,6 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:telephon_application/pages/callList_page.dart';
 import 'package:telephon_application/pages/messages.dart';
 
 class FirstPage extends StatefulWidget {
@@ -46,6 +47,7 @@ class _FirstPageState extends State<FirstPage> {
    // HomePage(),
     //profilepage
     MessagesPage(),
+    CallsPage(),
   ];
 
   @override
@@ -57,8 +59,10 @@ class _FirstPageState extends State<FirstPage> {
         onTap: _navigateBottomBar,
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.person_outline), label: 'Contacts'),
-          BottomNavigationBarItem(icon: Icon(Icons.call), label: 'Calls'),
+          BottomNavigationBarItem(icon: Icon(Icons.call), label: 'Calls'), 
         ],
+        selectedItemColor: Colors.lightBlue,
+        
       ),
       drawer: Drawer(
         backgroundColor: Colors.white,
@@ -124,10 +128,10 @@ class _FirstPageState extends State<FirstPage> {
             height: 40,
             width: 40,
             child: ClipRRect(
-              child: Icon(Icons.contact_page),
+              child: Icon(Icons.flutter_dash),
             )
           ),
-          Text("Kontakty"),
+          Text("AppName"),
         ],
       ),
       actions: [
