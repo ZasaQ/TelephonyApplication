@@ -38,6 +38,7 @@ export const makeCall = functions.firestore
               accepted: call.accepted.toString(),
               rejected: call.rejected.toString(),
               connected: call.connected.toString(),
+              activationDate: call.activationDate,
             },
             token: validToken,
           };

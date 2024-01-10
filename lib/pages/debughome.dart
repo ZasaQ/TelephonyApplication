@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import 'package:telephon_application/models/user_model.dart';
 import 'package:telephon_application/pages/call.dart';
@@ -19,6 +20,7 @@ class DebugHome extends StatefulWidget {
 }
 
 class _DebugHomeState extends State<DebugHome> {
+  DateFormat activationDateFormat = DateFormat("yyyy-MM-dd HH:mm:ss");
   handleNotification() {
     if (widget.receivedAction != null) {
       Map userMap = widget.receivedAction!.payload!;
@@ -35,6 +37,7 @@ class _DebugHomeState extends State<DebugHome> {
         accepted: true,
         rejected: jsonDecode(userMap['rejected']),
         connected: true,
+        activationDate: userMap['activationDate']
       );
       Navigator.push(
         context,
@@ -109,6 +112,7 @@ class _DebugHomeState extends State<DebugHome> {
                                         accepted: null,
                                         rejected: null,
                                         connected: null,
+                                        activationDate: activationDateFormat.format(DateTime.now())
                                       ),
                                     );
                                   },

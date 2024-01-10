@@ -18,7 +18,7 @@ class AuthenticationPage extends StatelessWidget {
             if (email == "debug@gmail.com") {
               return DebugHome(receivedAction: null);
             } else {
-              return FirstPage();
+              return FirstPage(receivedAction: null,);
             }
           }
           else {

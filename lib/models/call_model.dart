@@ -7,6 +7,7 @@ class CallModel {
   bool? accepted;
   bool? rejected;
   bool? connected;
+  String activationDate;
 
   CallModel({
     required this.id,
@@ -17,5 +18,6 @@ class CallModel {
     required this.accepted,
     required this.rejected,
     required this.connected,
+    required this.activationDate
   });
 }

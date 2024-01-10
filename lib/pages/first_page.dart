@@ -1,29 +1,77 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
 
+import 'dart:convert';
+
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:telephon_application/models/call_model.dart';
+import 'package:telephon_application/models/user_model.dart';
+import 'package:telephon_application/pages/call.dart';
 import 'package:telephon_application/pages/homepage.dart';
 import 'package:telephon_application/pages/messages.dart';
 import 'package:telephon_application/pages/settingspage.dart';
 
 class FirstPage extends StatefulWidget {
-   FirstPage({super.key});
+  final ReceivedAction? receivedAction;
+   FirstPage({super.key, required this.receivedAction});
 
   @override
   State<FirstPage> createState() => _FirstPageState();
 }
 
 class _FirstPageState extends State<FirstPage> {
+  handleNotification() {
+    if (widget.receivedAction != null) {
+      Map userMap = widget.receivedAction!.payload!;
+      UserModel user = UserModel(
+          uid: userMap['uid'],
+          name: userMap['name'],
+          email: userMap['email']);
+      CallModel call = CallModel(
+        id: userMap['id'],
+        channel: userMap['channel'],
+        caller: userMap['caller'],
+        called: userMap['called'],
+        active: jsonDecode(userMap['active']),
+        accepted: true,
+        rejected: jsonDecode(userMap['rejected']),
+        connected: true,
+        activationDate: userMap['activationDate']
+      );
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) {
+            return CallPage(user: user, callHandler: call);
+          },
+        ),
+      );
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(const Duration(milliseconds: 1000)).then(
+      (value) {
+        handleNotification();
+      },
+    );
+  }
+
   int _selectedIndex = 0;
   final currentUser = FirebaseAuth.instance.currentUser!;
   TextEditingController _searchController = TextEditingController();
   FocusNode _searchFocusNode = FocusNode();
+
   void _navigateBottomBar(int index){
     setState(() {
       _selectedIndex=index;
     });
   }
+  
   void userSignOut() {
     FirebaseAuth.instance.signOut();
   }

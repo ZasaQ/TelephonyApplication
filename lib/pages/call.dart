@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 
 import 'package:telephon_application/models/call_model.dart';
 import 'package:telephon_application/services/agora_settings.dart';
@@ -132,6 +133,7 @@ class _CallPageState extends State<CallPage> {
         'accepted': false,
         'rejected': false,
         'connected': false,
+        'activationDate': widget.callHandler.activationDate
       },
     );
   }
@@ -183,6 +185,7 @@ class _CallPageState extends State<CallPage> {
                       accepted: snapshot.data!['accepted'],
                       rejected: snapshot.data!['rejected'],
                       connected: snapshot.data!['connected'],
+                      activationDate: snapshot.data!['activationDate']
                     );
 
                     return widget.callHandler.rejected == true

@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:telephon_application/main.dart';
-import 'package:telephon_application/pages/debughome.dart';
+import 'package:telephon_application/pages/first_page.dart';
 import 'package:telephon_application/services/firestore_databases.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -43,7 +43,7 @@ class NotificationServices {
       Navigator.push(
         MyApp.navigatorKey.currentState!.context, 
         MaterialPageRoute(
-          builder: (context) => DebugHome(receivedAction: receivedAction))
+          builder: (context) => FirstPage(receivedAction: receivedAction))
       );
     }
     if (receivedAction.buttonKeyPressed == "REJECT") {
@@ -82,6 +82,7 @@ class NotificationServices {
           'accepted': remoteMessage.data['accepted'],
           'rejected': remoteMessage.data['rejected'],
           'connected': remoteMessage.data['connected'],
+          'activationDate': remoteMessage.data['activationDate']
         },
       ),
       actionButtons: [
