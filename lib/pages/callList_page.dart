@@ -74,24 +74,12 @@ class _CallsPageState extends State<CallsPage> {
                       return Container(
                         child: ExpansionTile(
                           leading: Icon(Icons.call_received,color: Colors.red),
-                          title:Text(data["caller"]),
-                          subtitle:Text("data/czas"),
+                          title:Text(data["caller"],style:TextStyle(fontWeight: FontWeight.w600)),
+                          subtitle:Text(data['activationDate'],style:TextStyle(fontWeight: FontWeight.w300)),
                           children: [
                             Row(
                               children: [
-                                Container(
-                                  width:MediaQuery.of(context).size.width/2-8.0,
-                                  
-                                  child: Text("Call again",style: TextStyle(fontSize: 16),),
-                                ),
-                                Container(
-                                  width:MediaQuery.of(context).size.width/2-8.0,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    border: Border.all(),
-                                  ),
-                                  child: IconButton(onPressed: (){}, icon: Icon(Icons.call))
-                                ),
+                                rejected(data),
                               ],
                             ),
 
@@ -102,8 +90,8 @@ class _CallsPageState extends State<CallsPage> {
                       return Container(
                         child: ExpansionTile(
                           leading: Icon(Icons.call_made,color: Colors.green),
-                          title:Text(data["called"]),
-                          subtitle:Text("data/czas"),
+                         title:Text(data["called"],style:TextStyle(fontWeight: FontWeight.w600)),
+                          subtitle:Text(data['activationDate'],style:TextStyle(fontWeight: FontWeight.w300)),
                           children: [
                             Row(
                               children: [
@@ -133,6 +121,68 @@ class _CallsPageState extends State<CallsPage> {
             }, 
           ), 
     );
+  }
+  Container rejected(Map<String,dynamic> data){
+    if(data['rejected']==false&&data['accepted']==true){
+      return Container(
+        child: Row(
+          children: [
+            Icon(Icons.phone),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text("Call accepted",
+                style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600,)
+              ),
+            ),
+          ],
+        ),
+      );
+    }else if(data['rejected']==true){
+      return Container(
+        child: Row(
+          children: [
+            Icon(Icons.call_end),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                "Call rejected",
+                style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600,)
+              ),
+            ),
+          ],
+        ),
+      );
+    }else if(data['connected']==false){
+      return Container(
+        child: Row(
+          children: [
+            Icon(Icons.one_x_mobiledata),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                "Couldn't connect",
+                style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600,)
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+    else{
+      return Container(
+        child: Row(
+          children: [
+            Icon(Icons.call_missed),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text("User didn't answer",
+                style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600,)
+              ),
+            ),
+          ],
+        ),
+      );
+    }
   }
   
 }
