@@ -4,14 +4,18 @@
 import 'dart:convert';
 
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'dart:ffi';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:telephon_application/models/call_model.dart';
 import 'package:telephon_application/models/user_model.dart';
 import 'package:telephon_application/pages/call.dart';
 import 'package:telephon_application/pages/homepage.dart';
+import 'package:telephon_application/pages/callList_page.dart';
 import 'package:telephon_application/pages/messages.dart';
-import 'package:telephon_application/pages/settingspage.dart';
 
 class FirstPage extends StatefulWidget {
   final ReceivedAction? receivedAction;
@@ -63,24 +67,34 @@ class _FirstPageState extends State<FirstPage> {
 
   int _selectedIndex = 0;
   final currentUser = FirebaseAuth.instance.currentUser!;
-  TextEditingController _searchController = TextEditingController();
-  FocusNode _searchFocusNode = FocusNode();
-
   void _navigateBottomBar(int index){
     setState(() {
       _selectedIndex=index;
     });
   }
-  
-  void userSignOut() {
-    FirebaseAuth.instance.signOut();
+  void userSignOut() async{
+    try{
+        QuerySnapshot<Map<String, dynamic>> querySnapshot =
+          await FirebaseFirestore.instance.collection('Users').where('uid', isEqualTo: currentUser!.uid).get();
+        String tokenValue = FirebaseMessaging.instance.getToken().toString();
+        await FirebaseFirestore.instance.collection("Users").doc(querySnapshot.docs.first.id).update(
+            {
+              'token': "",
+            },
+        );
+        print("token is empty");
+        FirebaseAuth.instance.signOut();
+    }catch (e){
+      print("Can't delete token value");
+    }
   }
 
   final List _pages = [
     //homepage
-    HomePage(),
+   // HomePage(),
     //profilepage
     MessagesPage(),
+    CallsPage(),
   ];
 
   @override
@@ -91,9 +105,11 @@ class _FirstPageState extends State<FirstPage> {
         currentIndex: _selectedIndex,
         onTap: _navigateBottomBar,
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.person_outline), label: 'Kontakty'),
-          BottomNavigationBarItem(icon: Icon(Icons.message_outlined), label: 'Wiadomosci'),
+          BottomNavigationBarItem(icon: Icon(Icons.person_outline), label: 'Contacts'),
+          BottomNavigationBarItem(icon: Icon(Icons.call), label: 'Calls'), 
         ],
+        selectedItemColor: Colors.lightBlue,
+        
       ),
       drawer: Drawer(
         backgroundColor: Colors.white,
@@ -159,40 +175,17 @@ class _FirstPageState extends State<FirstPage> {
             height: 40,
             width: 40,
             child: ClipRRect(
-              child: Icon(Icons.contact_page),
+              child: Icon(Icons.flutter_dash),
             )
           ),
-          Text("Kontakty"),
+          Text("AppName"),
         ],
       ),
       actions: [
         IconButton(onPressed: userSignOut, icon: Icon(Icons.logout, color: Colors.black,)),
       ],
-      bottom: PreferredSize(
-        preferredSize: Size(MediaQuery.of(context).size.width*8,80),
-        child: SizedBox(child: searchField()),
-      ),
+      
     );
   }
-  SizedBox searchField(){
-    return SizedBox(
-            width: MediaQuery.of(context).size.width*.9,
-                child: TextFormField(
-                  onChanged: (value){
-                    setState(() {
-                      
-                    });
-                  },
-                  focusNode: _searchFocusNode,
-                  controller: _searchController,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    prefixIcon: Icon(Icons.search),
-                    label: Text("Wyszukaj"),
-                    suffixIcon: _searchController.text.isNotEmpty? IconButton(onPressed: (){_searchController.clear();_searchFocusNode.unfocus();}, icon: Icon(Icons.close)):null,
-                  ),
-                ),
-            
-    );
-  }
+  
 }

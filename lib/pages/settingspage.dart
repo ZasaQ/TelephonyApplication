@@ -3,6 +3,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:telephon_application/controllers/crud_services.dart';
 
 
 class SettingsPage extends StatelessWidget {
@@ -63,6 +64,23 @@ class SettingsPage extends StatelessWidget {
               }
                        ),
            ),
+           Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: ListTile(
+              contentPadding: EdgeInsets.all(5),
+              shape: RoundedRectangleBorder(
+                side: BorderSide(width: 2, color: Colors.red),
+                borderRadius: BorderRadius.circular(16),
+                
+              ),
+              leading: Icon(Icons.delete_forever,color: Colors.red,),
+              title: Text("Delete Account",style:TextStyle(color: Colors.red)),
+              onTap:(){
+                Navigator.pop(context);
+                Navigator.pushNamed(context, '/deletePage');
+              }
+            ),
+          ),
         ],),
       ),
     );
