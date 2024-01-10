@@ -1,9 +1,30 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:telephon_application/controllers/getUid.dart';
 
 class CrudServices{
   User? _currentUser = FirebaseAuth.instance.currentUser;
 
+  deleteAccount()async{
+    String? uid = await getUserIdByUid(FirebaseAuth.instance.currentUser!.uid.toString());
+    try{
+      User? user=FirebaseAuth.instance.currentUser;
+      
+      if(user != null){
+        await FirebaseFirestore.instance
+        .collection('Users')
+        .doc(uid)
+        .delete();
+        await user.delete();
+        FirebaseAuth.instance.signOut();
+        print("Account deleted");
+      }else{
+        print("Couldn't find current user");
+      }
+    }catch (e){
+      print("error: $e");
+    }
+  }
   Future addContacts(String name, String phoneNumber, String email)async{
     Map<String,dynamic> contactData ={
       "name":name,
@@ -44,6 +65,4 @@ class CrudServices{
 
     yield* usersQuery;
   }
-
-
 }

@@ -95,21 +95,10 @@ class _CallsPageState extends State<CallsPage> {
                           children: [
                             Row(
                               children: [
-                                Container(
-                                  width:MediaQuery.of(context).size.width/2-8.0,
-                                  
-                                  child: Text("Call again",style: TextStyle(fontSize: 16),),
-                                ),
-                                Container(
-                                  width:MediaQuery.of(context).size.width/2-8.0,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    border: Border.all(),
-                                  ),
-                                  child: IconButton(onPressed: (){}, icon: Icon(Icons.call))
-                                ),
+                                rejected(data),
                               ],
                             ),
+
                           ],
                         ),
                       );

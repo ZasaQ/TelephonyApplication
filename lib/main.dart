@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:telephon_application/pages/about_page.dart';
+import 'package:telephon_application/pages/delete.dart';
 import 'package:telephon_application/pages/homepage.dart';
 import 'package:telephon_application/pages/login.dart';
 import 'package:telephon_application/pages/new_chat.dart';
@@ -38,6 +39,7 @@ class MyApp extends StatelessWidget {
         '/newPassword' : (context) => NewPassword(),
         '/newUsername' : (context) => NewUsername(),
         '/newChat' : (context) => NewChat(),
+        '/deletePage' : (context) => Delete(),
       },
     );
   }
