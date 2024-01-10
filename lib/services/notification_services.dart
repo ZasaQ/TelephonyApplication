@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:telephon_application/main.dart';
+import 'package:telephon_application/pages/debughome.dart';
 import 'package:telephon_application/services/firestore_databases.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -37,12 +38,13 @@ class NotificationServices {
   }
 
   @pragma('vm:entry-point')
-  static Future<void> onActionReceivedMethod(
-      ReceivedAction receivedAction) async {
+  static Future<void> onActionReceivedMethod(ReceivedAction receivedAction) async {
     if (receivedAction.buttonKeyPressed == "ACCEPT") {
-      MyApp.navigatorKey.currentState?.pushNamedAndRemoveUntil(
-          '/debugHome', (route) => (route.settings.name != '/debugHome') || route.isFirst,
-          arguments: receivedAction);
+      Navigator.push(
+        MyApp.navigatorKey.currentState!.context, 
+        MaterialPageRoute(
+          builder: (context) => DebugHome(receivedAction: receivedAction))
+      );
     }
     if (receivedAction.buttonKeyPressed == "REJECT") {
       callsCollection.doc(receivedAction.payload!['id']).update(

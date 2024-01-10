@@ -9,7 +9,7 @@ export const makeCall = functions.firestore
   .onCreate(async (callSnapshot) => {
     const call = callSnapshot.data();
     let callerData: DocumentData;
-    let tokens: string;
+    let validToken: string;
     const users = admin.firestore().collection("Users").get();
     users
       .then((usersSnapshot) => {
@@ -19,7 +19,7 @@ export const makeCall = functions.firestore
             callerData = user;
           }
           if (user.email == call.called) {
-            tokens = user.token;
+            validToken = user.token;
           }
         });
       })
@@ -39,11 +39,11 @@ export const makeCall = functions.firestore
               rejected: call.rejected.toString(),
               connected: call.connected.toString(),
             },
-            token: tokens,
+            token: validToken,
           };
           functions.logger.log("Debug info caller: "+call.caller);
           functions.logger.log("Debug info called: "+call.called);
-          functions.logger.log("Debug info tokens: "+tokens);
+          functions.logger.log("Debug info validToken: "+validToken);
           await admin.messaging().send(callPayload);
         }
       });

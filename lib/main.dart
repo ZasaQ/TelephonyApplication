@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:telephon_application/pages/debughome.dart';
 import 'package:telephon_application/pages/homepage.dart';
 import 'package:telephon_application/pages/new_contact.dart';
 import 'package:telephon_application/pages/messages.dart';
@@ -59,37 +58,10 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  static const String debugHomeRoute = '/debugHome';
-
   @override
   void initState() {
     NotificationServices.startListeningNotificationEvents();
     super.initState();
-  }
-
-  List<Route<dynamic>> onGenerateInitialRoutes(String initialRouteName) {
-    List<Route<dynamic>> pageStack = [];
-
-    if (NotificationServices.initialAction != null) {
-      pageStack.add(MaterialPageRoute(
-          builder: (_) => DebugHome(
-                receivedAction: NotificationServices.initialAction,
-              )));
-    }
-
-    return pageStack;
-  }
-
-  Route<dynamic>? onGenerateRoute(RouteSettings settings) {
-    switch (settings.name) {
-      case debugHomeRoute:
-        ReceivedAction receivedAction = settings.arguments as ReceivedAction;
-        return MaterialPageRoute(
-            builder: (_) => DebugHome(
-                  receivedAction: receivedAction,
-                ));
-    }
-    return null;
   }
 
   @override

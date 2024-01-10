@@ -1,11 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:telephon_application/controllers/crud_services.dart';
 
 class GoogleAuth {
   signInWithGoogle( ) async {
-    final CrudServices _crudServices = CrudServices();
-
     final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
 
     final GoogleSignInAuthentication gAuthentication = await gUser!.authentication;

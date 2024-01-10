@@ -9,7 +9,6 @@ import 'package:telephon_application/models/call_model.dart';
 import 'package:telephon_application/services/agora_settings.dart';
 import 'package:telephon_application/models/user_model.dart';
 import 'package:telephon_application/services/firestore_databases.dart';
-import 'package:cloud_functions/cloud_functions.dart';
 
 
 class CallPage extends StatefulWidget {
@@ -85,6 +84,11 @@ class _CallPageState extends State<CallPage> {
           setState(() {
             remoteUid = _remoteUid;
           });
+          callsCollection.doc(widget.callHandler.id).update(
+            {
+              'accepted': true,
+            },
+          );
         },
         onLeaveChannel: (connection, stats) {
           callsCollection.doc(widget.callHandler.id).update(
@@ -170,8 +174,7 @@ class _CallPageState extends State<CallPage> {
                 stream: callsCollection.doc(callID!).snapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-
-                    CallModel call = CallModel(
+                    widget.callHandler = CallModel(
                       id: snapshot.data!['id'],
                       channel: snapshot.data!['channel'],
                       caller: snapshot.data!['caller'],
@@ -182,15 +185,13 @@ class _CallPageState extends State<CallPage> {
                       connected: snapshot.data!['connected'],
                     );
 
-                    widget.callHandler = call;
-
-                    return call.rejected == true
-                        ? const Text("Call Declined")
+                    return widget.callHandler.rejected == true
+                        ? Center(child: const Text("Call Declined"))
                         : Stack(
                             children: [
                               //OTHER USER'S VIDEO WIDGET
                               Center(
-                                child: remoteVideo(callHandler: call),
+                                child: remoteVideo(callHandler: widget.callHandler),
                               ),
                               //LOCAL USER VIDEO WIDGET
                               if (rtcEngine != null)
