@@ -42,21 +42,13 @@ class _LoginPageState extends State<LoginPage> {
       );
     });*/
 
-    try {
+    try { 
       await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: emailController.text, password: passwordController.text
-      ).then((userCredential) => null);
-      String? uid = await getUserIdByUid(FirebaseAuth.instance.currentUser!.uid.toString());
-      FirebaseMessaging.instance.getToken().then(
-        (token) async {
-
-          await FirebaseFirestore.instance.collection("Users").doc().update(
-          {
-            'tokens': FieldValue.arrayUnion([token]),
-          },
-          );
-        },
-      );
+          email: emailController.text, password: passwordController.text
+        ).then((userCredential) => null);
+      String _currentUser = await FirebaseAuth.instance.currentUser!.uid.toString();
+      CrudServices().getToken(_currentUser);
+     
     } on FirebaseAuthException catch (excep) {
       if (emailController.text.isEmpty || passwordController.text.isEmpty) {
         return showAlertMessage('Email and password can\'t be empty');
