@@ -32,7 +32,7 @@ class _FirstPageState extends State<FirstPage> {
         String tokenValue = FirebaseMessaging.instance.getToken().toString();
         await FirebaseFirestore.instance.collection("Users").doc(querySnapshot.docs.first.id).update(
             {
-              'token': FieldValue.arrayRemove([tokenValue]),
+              'token': "",
             },
         );
         print("token is empty");

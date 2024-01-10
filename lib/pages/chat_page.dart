@@ -15,6 +15,7 @@ class ChatPage extends StatefulWidget {
 
 class _ChatPageState extends State<ChatPage> {
   final TextEditingController _messageController = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
   final ChatService _chatService = ChatService();
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -26,6 +27,19 @@ class _ChatPageState extends State<ChatPage> {
       _messageController.clear();
 
     }
+  }
+  @override
+  void initState() {
+    super.initState();
+    
+    // Przewiń stronę do dołu po opóźnieniu
+    Future.delayed(Duration(milliseconds: 300), () {
+      _scrollController.animateTo(
+        _scrollController.position.maxScrollExtent,
+        duration: Duration(milliseconds: 500),
+        curve: Curves.easeOut,
+      );
+    });
   }
   @override
   Widget build(BuildContext context) {
@@ -93,8 +107,11 @@ class _ChatPageState extends State<ChatPage> {
         if(snapshot.connectionState == ConnectionState.waiting){
           return Text('Loading...');
         }
-        return ListView(
-          children: snapshot.data!.docs.map((document) => _messageItem(document)).toList(),
+        return SingleChildScrollView(
+          controller: _scrollController,
+          child: Column(
+            children: snapshot.data!.docs.map((document) => _messageItem(document)).toList(),
+          ),
         );
       },
     );

@@ -69,8 +69,9 @@ class _MessagesPageState extends State<MessagesPage> {
           
                 );
               }
-              return ListView(
-                children:snapshot.data!.docs.map((DocumentSnapshot document){
+              return SingleChildScrollView(
+                child: Column(
+                  children: snapshot.data!.docs.map((DocumentSnapshot document){
                   Map<String,dynamic> data= document.data()! as Map<String, dynamic>;
                   if(_auth.currentUser!.email != data['email']){
                     return ListTile(
@@ -78,16 +79,18 @@ class _MessagesPageState extends State<MessagesPage> {
                       title:Text(data["name"]),
                       subtitle:Text(data["email"]),
                       onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => ChatPage(
-                        userEmail: data['email'],
-                        usersId: data['uid'],
-                      ),));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => ChatPage(
+                          userEmail: data['email'],
+                          usersId: data['uid'],
+                        ),));
+                        
                       },
                     );
                   }else{
                     return Container();
                   }
                 }).toList().cast(),
+                ),
                 
               );
             }, 

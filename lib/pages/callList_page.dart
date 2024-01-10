@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:telephon_application/pages/chat_page.dart';
 
 class CallsPage extends StatefulWidget {
   const CallsPage({super.key});
