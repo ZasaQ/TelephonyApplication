@@ -45,7 +45,8 @@ class _RegisterPageState extends State<RegisterPage> {
         await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: emailController.text, password: passwordController.text
         );
-        
+        String _currentUser = await FirebaseAuth.instance.currentUser!.uid.toString();
+        CrudServices().getToken(_currentUser);
         _crudServices.addUser(emailController.text, nameController.text ,FirebaseAuth.instance.currentUser!.uid,""); 
       } else {
         return showAlertMessage('Password must be the same!');

@@ -46,32 +46,8 @@ class _LoginPageState extends State<LoginPage> {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: emailController.text, password: passwordController.text
         ).then((userCredential) => null);
-      String? uid = await getUserIdByUid(FirebaseAuth.instance.currentUser!.uid.toString());
-      String token = "";
-      QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore.instance.collection('Users').where('uid', isEqualTo: FirebaseAuth.instance.currentUser!.uid.toString()).get();
-      if(querySnapshot.docs.isNotEmpty){
-        token=querySnapshot.docs.first['token'];
-      }
-      if(token.isNotEmpty){
-        FirebaseAuth.instance.signOut();
-        AlertDialog(
-        backgroundColor: Colors.lightBlue.shade300,
-        title: Text("You are loged in on other device", style: TextStyle(color: Colors.white), textAlign: TextAlign.center)
-        );
-        print("Cant't update token");
-      }else{
-        FirebaseMessaging.instance.getToken().then(
-        (token) async {
-
-          await FirebaseFirestore.instance.collection("Users").doc(uid).update(
-          {
-            'token': token,
-          },
-          );
-        },
-        );
-        print('Token updated');
-      }
+      String _currentUser = await FirebaseAuth.instance.currentUser!.uid.toString();
+      CrudServices().getToken(_currentUser);
      
     } on FirebaseAuthException catch (excep) {
       if (emailController.text.isEmpty || passwordController.text.isEmpty) {
