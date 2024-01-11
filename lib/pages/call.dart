@@ -49,10 +49,6 @@ class _CallPageState extends State<CallPage> {
     );
   }
 
-  void initAgoraClient() async {
-    await agoraClient?.initialize();
-  }
-
   @override
   void dispose() {
     rtcEngine!.release();
@@ -204,8 +200,6 @@ class _CallPageState extends State<CallPage> {
                         channelName: widget.callHandler.channel
                         )
                       );
-
-                    agoraClient?.initialize();
 
                     return widget.callHandler.rejected == true
                         ? Center(child: const Text("Call Declined"))
