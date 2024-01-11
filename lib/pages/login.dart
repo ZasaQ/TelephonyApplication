@@ -1,11 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:telephon_application/components/lr_text_field.dart';
 import 'package:telephon_application/components/lr_button.dart';
 import 'package:telephon_application/controllers/crud_services.dart';
-import 'package:telephon_application/controllers/getUid.dart';
 import 'package:telephon_application/pages/forgot_password.dart';
 import 'package:telephon_application/services/google_auth.dart';
 

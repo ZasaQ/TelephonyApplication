@@ -82,6 +82,7 @@ class _MessagesPageState extends State<MessagesPage> {
                         Navigator.push(context, MaterialPageRoute(builder: (context) => ChatPage(
                           userEmail: data['email'],
                           usersId: data['uid'],
+                          userName: data["name"],
                         ),));
                         
                       },
