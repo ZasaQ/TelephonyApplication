@@ -1,19 +1,25 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:telephon_application/components/chat_bubble.dart';
+import 'package:telephon_application/models/call_model.dart';
+import 'package:telephon_application/models/user_model.dart';
+import 'package:telephon_application/pages/call.dart';
 import 'package:telephon_application/services/chat/chat_services.dart';
 
 class ChatPage extends StatefulWidget {
   final String userEmail;
   final String usersId;
-  const ChatPage({super.key, required this.userEmail, required this.usersId});
+  final String userName;
+  const ChatPage({super.key, required this.userEmail, required this.usersId, required this.userName});
 
   @override
   State<ChatPage> createState() => _ChatPageState();
 }
 
 class _ChatPageState extends State<ChatPage> {
+  DateFormat activationDateFormat = DateFormat("yyyy-MM-dd HH:mm:ss");
   final TextEditingController _messageController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
   final ChatService _chatService = ChatService();
@@ -28,6 +34,7 @@ class _ChatPageState extends State<ChatPage> {
 
     }
   }
+
   @override
   void initState() {
     super.initState();
@@ -47,7 +54,32 @@ class _ChatPageState extends State<ChatPage> {
       appBar: AppBar(
         title: Text(widget.userEmail),
         actions: [
-          IconButton(onPressed: (){}, icon: Icon(Icons.video_call, color: Colors.lightBlue,)),
+          IconButton(onPressed: (){
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) {
+                  UserModel userToCall = UserModel(uid: widget.usersId, name: widget.userName, email: widget.userEmail);
+                  return CallPage(
+                    user: userToCall,
+                    callHandler: CallModel(
+                      id: null,
+                      channel: "video${FirebaseAuth.instance.currentUser!.uid}${userToCall.uid}",
+                      caller: FirebaseAuth.instance.currentUser!.email.toString(),
+                      called: userToCall.email,
+                      active: null,
+                      accepted: null,
+                      rejected: null,
+                      connected: null,
+                      activationDate: activationDateFormat.format(DateTime.now())
+                    ),
+                  );
+                },
+              ),
+            );
+          }, 
+          icon: Icon(Icons.video_call, 
+          color: Colors.lightBlue,)),
         ]
       ),
       body: Column(

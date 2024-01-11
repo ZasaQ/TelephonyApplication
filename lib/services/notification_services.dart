@@ -1,7 +1,11 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:telephon_application/main.dart';
+import 'package:telephon_application/models/call_model.dart';
+import 'package:telephon_application/models/user_model.dart';
+import 'package:telephon_application/pages/call.dart';
 import 'package:telephon_application/pages/first_page.dart';
 import 'package:telephon_application/services/firestore_databases.dart';
 import 'package:flutter/material.dart';
@@ -40,10 +44,31 @@ class NotificationServices {
   @pragma('vm:entry-point')
   static Future<void> onActionReceivedMethod(ReceivedAction receivedAction) async {
     if (receivedAction.buttonKeyPressed == "ACCEPT") {
-      Navigator.push(
+      /*Navigator.pushReplacement(
         MyApp.navigatorKey.currentState!.context, 
         MaterialPageRoute(
           builder: (context) => FirstPage(receivedAction: receivedAction))
+      );*/
+      Map userMap = receivedAction!.payload!;
+      UserModel user = UserModel(
+          uid: userMap['uid'],
+          name: userMap['name'],
+          email: userMap['email']);
+      CallModel call = CallModel(
+        id: userMap['id'],
+        channel: userMap['channel'],
+        caller: userMap['caller'],
+        called: userMap['called'],
+        active: jsonDecode(userMap['active']),
+        accepted: true,
+        rejected: jsonDecode(userMap['rejected']),
+        connected: true,
+        activationDate: userMap['activationDate']
+      );
+      Navigator.push(
+        MyApp.navigatorKey.currentState!.context, 
+        MaterialPageRoute(
+          builder: (context) => CallPage(user: user, callHandler: call,))
       );
     }
     if (receivedAction.buttonKeyPressed == "REJECT") {

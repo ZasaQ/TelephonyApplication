@@ -3,7 +3,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:telephon_application/pages/about_page.dart';
 import 'package:telephon_application/pages/delete.dart';
 import 'package:telephon_application/pages/homepage.dart';
-import 'package:telephon_application/pages/login.dart';
 import 'package:telephon_application/pages/new_chat.dart';
 import 'package:telephon_application/pages/new_contact.dart';
 import 'package:telephon_application/pages/messages.dart';

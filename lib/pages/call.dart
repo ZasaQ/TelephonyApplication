@@ -55,7 +55,7 @@ class _CallPageState extends State<CallPage> {
 
   Future<void> getToken() async {
     final response = await http.get(Uri.parse(
-        '$tokenBaseUrl/rtc/${widget.callHandler.channel}/publisher/userAccount/$uid?expiry=3600'));
+        '$tokenBaseUrl/rtc/${widget.callHandler.channel}/publisher/userAccount/$uid?expiry=600'));
     if (response.statusCode == 200) {
       setState(() {
         token = jsonDecode(response.body)['rtcToken'];
