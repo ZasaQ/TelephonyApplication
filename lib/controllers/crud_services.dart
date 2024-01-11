@@ -68,12 +68,13 @@ class CrudServices{
     }
   }
 
-  Future addUser(String email, String name, String uid, String token)async{
+  Future addUser(String email, String name, String uid, String token, String role)async{
     Map<String,dynamic> userData ={
       "email":email,
       "name":name,
       "uid":uid,
-      "token": token
+      "token": token,
+      "role": role,
     };
     try{
       await FirebaseFirestore.instance.collection("Users").add(userData);

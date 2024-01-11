@@ -1,12 +1,11 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
-
-import 'dart:ffi';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:telephon_application/components/appBar.dart';
+import 'package:telephon_application/controllers/getUid.dart';
 import 'package:telephon_application/pages/callList_page.dart';
 import 'package:telephon_application/pages/messages.dart';
 
@@ -16,7 +15,6 @@ class FirstPage extends StatefulWidget {
   @override
   State<FirstPage> createState() => _FirstPageState();
 }
-
 class _FirstPageState extends State<FirstPage> {
   int _selectedIndex = 0;
   final currentUser = FirebaseAuth.instance.currentUser!;
@@ -25,23 +23,7 @@ class _FirstPageState extends State<FirstPage> {
       _selectedIndex=index;
     });
   }
-  void userSignOut() async{
-    try{
-        QuerySnapshot<Map<String, dynamic>> querySnapshot =
-          await FirebaseFirestore.instance.collection('Users').where('uid', isEqualTo: currentUser!.uid).get();
-        String tokenValue = FirebaseMessaging.instance.getToken().toString();
-        await FirebaseFirestore.instance.collection("Users").doc(querySnapshot.docs.first.id).update(
-            {
-              'token': "",
-            },
-        );
-        print("token is empty");
-        FirebaseAuth.instance.signOut();
-    }catch (e){
-      print("Can't delete token value");
-    }
-  }
-
+  
   final List _pages = [
     //homepage
    // HomePage(),
@@ -53,7 +35,7 @@ class _FirstPageState extends State<FirstPage> {
   @override
   Widget build(BuildContext context){
     return Scaffold(
-      appBar: _appBar(),
+      appBar: MainAppBar(currentUser: currentUser.uid),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         onTap: _navigateBottomBar,
@@ -80,6 +62,59 @@ class _FirstPageState extends State<FirstPage> {
               ],
             ),  
           ),
+         FutureBuilder(
+              future: FirebaseFirestore.instance
+                  .collection('Users')
+                  .where('uid', isEqualTo: currentUser.uid)
+                  .where('role', isEqualTo: 'admin')
+                  .get(),
+              builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                }
+
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return CircularProgressIndicator();
+                }
+                String data = snapshot.connectionState.toString();
+                
+                if(data.isNotEmpty){
+                return SizedBox(
+                  height: 200,
+                  child: ListView(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Text("Admin functions:"),
+                      ),
+                      
+                      ListTile(
+                        leading: Icon(Icons.settings),
+                        title: Text("Delete User"),
+                        onTap:(){
+                          //go to homepage
+                          Navigator.pop(context);
+                          Navigator.pushNamed(context, '/settingspage');
+                        }
+                      ),
+                       ListTile(
+                        leading: Icon(Icons.settings),
+                        title: Text("Change user role"),
+                        onTap:(){
+                          //go to homepage
+                          Navigator.pop(context);
+                          Navigator.pushNamed(context, '/settingspage');
+                        }
+                      ),
+                    ],
+                  ),
+                );
+                }else{
+                  return Container();
+                }
+              },
+         ), 
+        
           //home page
           ListTile(
             leading: Icon(Icons.person),
@@ -107,7 +142,7 @@ class _FirstPageState extends State<FirstPage> {
             titleTextStyle: TextStyle(color: Colors.white),
             onTap:(){
               
-              userSignOut();
+              userSignOut(currentUser!.uid);
             }
           ),
         ],
@@ -118,27 +153,21 @@ class _FirstPageState extends State<FirstPage> {
         
     );
   }
-  AppBar _appBar(){
-    return AppBar(
-      backgroundColor: Colors.white,
-      elevation: 0,
-      title: Row(
-        children: [
-          SizedBox(
-            height: 40,
-            width: 40,
-            child: ClipRRect(
-              child: Icon(Icons.flutter_dash),
-            )
-          ),
-          Text("AppName"),
-        ],
-      ),
-      actions: [
-        IconButton(onPressed: userSignOut, icon: Icon(Icons.logout, color: Colors.black,)),
-      ],
-      
-    );
+  Future<bool?> ifAdmin() async {
+    try {
+      QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore.instance
+          .collection('Users')
+          .where('uid', isEqualTo: currentUser.uid)
+          .where('role', isEqualTo: 'admin')
+          .get();
+      if (querySnapshot.docs.isNotEmpty) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      print("Error checking admin status: $e");
+      return null;
+    }
   }
-  
 }
