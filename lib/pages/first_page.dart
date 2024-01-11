@@ -1,25 +1,23 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
-<<<<<<< HEAD
-=======
 
 import 'dart:convert';
 
 import 'package:awesome_notifications/awesome_notifications.dart';
 
->>>>>>> 4b3e4f06abfa312cab9bbe45ae5ea883a2ebc262
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
+
 import 'package:telephon_application/components/appBar.dart';
 import 'package:telephon_application/controllers/getUid.dart';
-=======
+
 import 'package:telephon_application/models/call_model.dart';
 import 'package:telephon_application/models/user_model.dart';
 import 'package:telephon_application/pages/call.dart';
->>>>>>> 4b3e4f06abfa312cab9bbe45ae5ea883a2ebc262
+
 import 'package:telephon_application/pages/callList_page.dart';
 import 'package:telephon_application/pages/messages.dart';
 
