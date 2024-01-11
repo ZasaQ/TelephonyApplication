@@ -1,3 +1,4 @@
+import 'package:agora_uikit/agora_uikit.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -15,7 +16,7 @@ import 'package:telephon_application/services/utils.dart';
 class CallPage extends StatefulWidget {
   final UserModel user;
   CallModel callHandler;
-
+  
   CallPage({super.key, required this.user, required this.callHandler});
 
   @override
@@ -28,7 +29,9 @@ class _CallPageState extends State<CallPage> {
   int uid = 0;
   bool localUserJoined = false;
   String? callID;
+  String? channelName;
   int? remoteUid;
+  AgoraClient? agoraClient;
 
   @override
   void initState() {
@@ -44,6 +47,10 @@ class _CallPageState extends State<CallPage> {
         getToken();
       },
     );
+  }
+
+  void initAgoraClient() async {
+    await agoraClient?.initialize();
   }
 
   @override
@@ -112,6 +119,9 @@ class _CallPageState extends State<CallPage> {
             },
           );
         },
+        onVideoStopped: () {
+          rtcEngine?.disableVideo();
+        },
       ),
     );
 
@@ -162,7 +172,7 @@ class _CallPageState extends State<CallPage> {
           elevation: 0,
           centerTitle: true,
           title: Text(
-            widget.user.name,
+            "Calling ${widget.user.name}",
             style: const TextStyle(
               color: Colors.black,
             ),
@@ -188,15 +198,24 @@ class _CallPageState extends State<CallPage> {
                       activationDate: snapshot.data!['activationDate']
                     );
 
+                    agoraClient = AgoraClient(
+                      agoraConnectionData: AgoraConnectionData(
+                        appId: appID, 
+                        channelName: widget.callHandler.channel
+                        )
+                      );
+
+                    agoraClient?.initialize();
+
                     return widget.callHandler.rejected == true
                         ? Center(child: const Text("Call Declined"))
                         : Stack(
                             children: [
-                              //OTHER USER'S VIDEO WIDGET
+                              //Remote user's video widget
                               Center(
                                 child: remoteVideo(callHandler: widget.callHandler),
                               ),
-                              //LOCAL USER VIDEO WIDGET
+                              //Local user's video widget
                               if (rtcEngine != null)
                                 Positioned.fill(
                                   child: Align(
@@ -213,24 +232,7 @@ class _CallPageState extends State<CallPage> {
                                     ),
                                   ),
                                 ),
-                              Positioned.fill(
-                                child: Align(
-                                  alignment: Alignment.bottomCenter,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(bottom: 40),
-                                    child: FloatingActionButton(
-                                      backgroundColor: Colors.red,
-                                      onPressed: () {
-                                        rtcEngine?.leaveChannel();
-                                      },
-                                      child: const Icon(
-                                        Icons.call_end_rounded,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
+                                AgoraVideoButtons(client: agoraClient!,),
                             ],
                           );
                   }
@@ -258,7 +260,6 @@ class _CallPageState extends State<CallPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  //userPhoto(radius: 50, url: widget.user.photo),
                   Column(
                     children: [
                       Padding(
