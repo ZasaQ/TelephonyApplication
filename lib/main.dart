@@ -10,7 +10,7 @@ import 'package:telephon_application/pages/new_password.dart';
 import 'package:telephon_application/pages/new_username.dart';
 import 'package:telephon_application/pages/settingspage.dart';
 import 'package:telephon_application/services/authentication.dart';
-import 'package:telephon_application/services/firestore_databases.dart';
+import 'package:telephon_application/services/utils.dart';
 import 'package:telephon_application/services/notification_services.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
