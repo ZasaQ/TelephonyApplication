@@ -12,6 +12,9 @@ class GoogleAuth {
       idToken: gAuthentication.idToken
     );
 
+    //String name = gUser.email.substring(0, gUser.email.indexOf('@'));
+    //_crudServices.addUser(gUser.email, name, gCredential.idToken.toString());
+
     return await FirebaseAuth.instance.signInWithCredential(gCredential);
   }
 }

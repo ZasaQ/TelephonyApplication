@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:telephon_application/components/lr_button.dart';
-import 'package:telephon_application/controllers/crud_services.dart';
 
 class NewContact extends StatefulWidget {
   const NewContact({super.key});
