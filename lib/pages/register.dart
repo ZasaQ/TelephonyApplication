@@ -47,7 +47,7 @@ class _RegisterPageState extends State<RegisterPage> {
         );
         String _currentUser = await FirebaseAuth.instance.currentUser!.uid.toString();
         CrudServices().getToken(_currentUser);
-        _crudServices.addUser(emailController.text, nameController.text ,FirebaseAuth.instance.currentUser!.uid,""); 
+        _crudServices.addUser(emailController.text, nameController.text ,FirebaseAuth.instance.currentUser!.uid,"","user"); 
       } else {
         return showAlertMessage('Password must be the same!');
       }
