@@ -49,3 +49,15 @@ export const makeCall = functions.firestore
         }
       });
   });
+export const deleteFirebaseUser = functions.https.onCall(async (data) => {
+  const uid = data;
+
+  try {
+    await admin.auth().deleteUser(uid);
+    functions.logger.log(`Successfully deleted user with UID: ${uid}`);
+    return null;
+  } catch (error) {
+    functions.logger.error(`Error deleting user with UID: ${uid}`, error);
+    return null;
+  }
+});

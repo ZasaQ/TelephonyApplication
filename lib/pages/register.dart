@@ -135,7 +135,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 // Google Authentication
                 Center(
                   child: GestureDetector(
-                    onTap: () => GoogleAuth().signInWithGoogle(),
+                    onTap: () => GoogleAuth().authenticateUser(),
                     child: Container(
                       padding: EdgeInsets.all(10),
                       decoration: BoxDecoration(
