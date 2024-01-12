@@ -146,7 +146,7 @@ class _FirstPageState extends State<FirstPage> {
                         onTap:(){
                           //go to homepage
                           Navigator.pop(context);
-                          Navigator.pushNamed(context, '/settingspage');
+                          Navigator.pushNamed(context, '/adminDeleteUser');
                         }
                       ),
                        ListTile(
@@ -155,7 +155,7 @@ class _FirstPageState extends State<FirstPage> {
                         onTap:(){
                           //go to homepage
                           Navigator.pop(context);
-                          Navigator.pushNamed(context, '/settingspage');
+                          Navigator.pushNamed(context, '/adminChangeRole');
                         }
                       ),
                     ],

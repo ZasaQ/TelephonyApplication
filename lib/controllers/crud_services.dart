@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -55,6 +56,18 @@ class CrudServices{
         print('Token updated');
       }
   }
+  deleteFirestoreUser(String userUid) async{
+     String? uid = await getUserIdByUid(userUid);
+     try{
+      await FirebaseFirestore.instance
+        .collection('Users')
+        .doc(uid)
+        .delete();
+     }catch (e){
+       print("error: $e");
+     }
+
+  }
   Future addContacts(String name, String phoneNumber, String email)async{
     Map<String,dynamic> contactData ={
       "name":name,
@@ -67,7 +80,15 @@ class CrudServices{
       print(e.toString());
     }
   }
-
+  Future deleteAccountById(String uid)async{
+    try{
+      final HttpsCallable callable = FirebaseFunctions.instance.httpsCallable('deleteFirebaseUser');
+      await callable.call({'uid' : uid});
+      print("Account deleted");
+    }catch (e){
+      print("Can't delete account: $e");
+    }
+  }
   Future addUser(String email, String name, String uid, String token, String role)async{
     Map<String,dynamic> userData ={
       "email":email,

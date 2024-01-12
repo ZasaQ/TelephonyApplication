@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:telephon_application/pages/about_page.dart';
+import 'package:telephon_application/pages/admin/change_role.dart';
+import 'package:telephon_application/pages/admin/delete_user.dart';
 import 'package:telephon_application/pages/delete.dart';
 import 'package:telephon_application/pages/homepage.dart';
 import 'package:telephon_application/pages/new_chat.dart';
@@ -85,6 +87,8 @@ class _MyAppState extends State<MyApp> {
         '/newUsername' : (context) => NewUsername(),
         '/newChat' : (context) => NewChat(),
         '/deletePage' : (context) => Delete(),
+        '/adminDeleteUser' : (context) => AdminDeleteUser(),
+        '/adminChangeRole' : (context) => AdminChangeRole()
       },
     );
   }
