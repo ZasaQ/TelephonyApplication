@@ -6,7 +6,6 @@ import 'package:telephon_application/main.dart';
 import 'package:telephon_application/models/call_model.dart';
 import 'package:telephon_application/models/user_model.dart';
 import 'package:telephon_application/pages/call.dart';
-import 'package:telephon_application/pages/first_page.dart';
 import 'package:telephon_application/services/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -44,12 +43,7 @@ class NotificationServices {
   @pragma('vm:entry-point')
   static Future<void> onActionReceivedMethod(ReceivedAction receivedAction) async {
     if (receivedAction.buttonKeyPressed == "ACCEPT") {
-      /*Navigator.pushReplacement(
-        MyApp.navigatorKey.currentState!.context, 
-        MaterialPageRoute(
-          builder: (context) => FirstPage(receivedAction: receivedAction))
-      );*/
-      Map userMap = receivedAction!.payload!;
+      Map userMap = receivedAction.payload!;
       UserModel user = UserModel(
           uid: userMap['uid'],
           name: userMap['name'],

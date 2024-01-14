@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 CollectionReference callsCollection = FirebaseFirestore.instance.collection("Calls");
 
@@ -34,3 +35,18 @@ Future<String?> getUserIdByUid(String currentUserId) async {
     return null;
   }
 }
+
+void userSignOut(String currentUser) async{
+    try{
+        QuerySnapshot<Map<String, dynamic>> querySnapshot =
+          await FirebaseFirestore.instance.collection('Users').where('uid', isEqualTo: currentUser).get();
+        await FirebaseFirestore.instance.collection("Users").doc(querySnapshot.docs.first.id).update(
+            {
+              'token': "",
+            },
+        );
+        print("token is empty");
+        FirebaseAuth.instance.signOut();
+    }catch (e){
+      print("Can't delete token value");
+}} 

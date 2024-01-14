@@ -19,13 +19,6 @@ class _MessagesPageState extends State<MessagesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: (){
-          Navigator.pop(context);
-          Navigator.pushNamed(context, "/newChat");
-        }, 
-        child: Icon(Icons.chat_bubble),
-      ),
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: Padding(

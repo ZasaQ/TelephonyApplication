@@ -5,7 +5,6 @@ import 'package:telephon_application/pages/admin/change_role.dart';
 import 'package:telephon_application/pages/admin/delete_user.dart';
 import 'package:telephon_application/pages/delete.dart';
 import 'package:telephon_application/pages/homepage.dart';
-import 'package:telephon_application/pages/new_chat.dart';
 import 'package:telephon_application/pages/new_contact.dart';
 import 'package:telephon_application/pages/messages.dart';
 import 'package:telephon_application/pages/new_password.dart';
@@ -85,7 +84,6 @@ class _MyAppState extends State<MyApp> {
         '/aboutpage' : (context) => AboutPage(),
         '/newPassword' : (context) => NewPassword(),
         '/newUsername' : (context) => NewUsername(),
-        '/newChat' : (context) => NewChat(),
         '/deletePage' : (context) => Delete(),
         '/adminDeleteUser' : (context) => AdminDeleteUser(),
         '/adminChangeRole' : (context) => AdminChangeRole()

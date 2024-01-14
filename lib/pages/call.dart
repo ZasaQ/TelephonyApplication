@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:intl/intl.dart';
 
 import 'package:telephon_application/models/call_model.dart';
 import 'package:telephon_application/services/agora_settings.dart';
@@ -29,7 +27,6 @@ class _CallPageState extends State<CallPage> {
   int uid = 0;
   bool localUserJoined = false;
   String? callID;
-  String? channelName;
   int? remoteUid;
   AgoraClient? agoraClient;
 

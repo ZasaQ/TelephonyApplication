@@ -8,11 +8,10 @@ import 'package:awesome_notifications/awesome_notifications.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 
 import 'package:telephon_application/components/appBar.dart';
-import 'package:telephon_application/controllers/getUid.dart';
+import 'package:telephon_application/services/utils.dart';
 
 import 'package:telephon_application/models/call_model.dart';
 import 'package:telephon_application/models/user_model.dart';
@@ -68,6 +67,38 @@ class _FirstPageState extends State<FirstPage> {
     );
   }
 
+  Widget buildAdminFunctions() {
+    return SizedBox(
+      height: 200,
+      child: ListView(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 18.0),
+            child: Text("Admin functions:"),
+          ),
+          ListTile(
+            leading: Icon(Icons.settings),
+            title: Text("Delete User"),
+            onTap: () {
+              // go to homepage
+              Navigator.pop(context);
+              Navigator.pushNamed(context, '/adminDeleteUser');
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.settings),
+            title: Text("Change user role"),
+            onTap: () {
+              // go to homepage
+              Navigator.pop(context);
+              Navigator.pushNamed(context, '/adminChangeRole');
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
   int _selectedIndex = 0;
   final currentUser = FirebaseAuth.instance.currentUser!;
   void _navigateBottomBar(int index){
@@ -115,56 +146,24 @@ class _FirstPageState extends State<FirstPage> {
             ),  
           ),
          FutureBuilder(
-              future: FirebaseFirestore.instance
-                  .collection('Users')
-                  .where('uid', isEqualTo: currentUser.uid)
-                  .where('role', isEqualTo: 'admin')
-                  .get(),
-              builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
-                }
+            future: ifAdmin(),
+            builder: (context, AsyncSnapshot<bool?> snapshot) {
+              if (snapshot.hasError) {
+                return Text('Error: ${snapshot.error}');
+              }
 
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return CircularProgressIndicator();
-                }
-                String data = snapshot.connectionState.toString();
-                
-                if(data.isNotEmpty){
-                return SizedBox(
-                  height: 200,
-                  child: ListView(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Text("Admin functions:"),
-                      ),
-                      
-                      ListTile(
-                        leading: Icon(Icons.settings),
-                        title: Text("Delete User"),
-                        onTap:(){
-                          //go to homepage
-                          Navigator.pop(context);
-                          Navigator.pushNamed(context, '/adminDeleteUser');
-                        }
-                      ),
-                       ListTile(
-                        leading: Icon(Icons.settings),
-                        title: Text("Change user role"),
-                        onTap:(){
-                          //go to homepage
-                          Navigator.pop(context);
-                          Navigator.pushNamed(context, '/adminChangeRole');
-                        }
-                      ),
-                    ],
-                  ),
-                );
-                }else{
-                  return Container();
-                }
-              },
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return CircularProgressIndicator();
+              }
+
+              bool? isAdmin = snapshot.data;
+
+              if(isAdmin!){
+              return buildAdminFunctions();
+              }else{
+                return Container();
+              }
+            },
          ), 
         
           //home page
@@ -194,11 +193,10 @@ class _FirstPageState extends State<FirstPage> {
             titleTextStyle: TextStyle(color: Colors.white),
             onTap:(){
               
-              userSignOut(currentUser!.uid);
+              userSignOut(currentUser.uid);
             }
           ),
         ],
-        
       ),
       ),
       body: _pages[_selectedIndex],

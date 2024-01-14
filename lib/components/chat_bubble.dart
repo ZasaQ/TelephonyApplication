@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:telephon_application/models/message.dart';
 
 class ChatBubble extends StatelessWidget {
   final String msg;

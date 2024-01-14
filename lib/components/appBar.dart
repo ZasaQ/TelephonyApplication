@@ -1,6 +1,5 @@
-
 import 'package:flutter/material.dart';
-import 'package:telephon_application/controllers/getUid.dart';
+import 'package:telephon_application/services/utils.dart';
 
 class MainAppBar extends StatelessWidget implements PreferredSizeWidget{
   final String currentUser;
@@ -20,7 +19,7 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget{
                 child: Icon(Icons.flutter_dash),
               )
             ),
-            Text("AppName"),
+            Text("Telephony Application"),
           ],
         ),
         actions: [
