@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:telephon_application/components/lr_button.dart';
+import 'package:telephon_application/controllers/getUid.dart';
 
 class NewPassword extends StatefulWidget {
   const NewPassword({super.key});
@@ -139,7 +140,7 @@ class _NewPasswordState extends State<NewPassword> {
                     _oldPasswordController.clear();
                     _newPasswordController.clear();
                     _confirmPasswordController.clear();
-                    _auth.signOut();
+                    userSignOut(_auth.currentUser!.uid);
                   }, 
                   
                 ),
