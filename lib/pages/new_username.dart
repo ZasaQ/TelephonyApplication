@@ -92,6 +92,7 @@ class _NewUsernameState extends State<NewUsername> {
                     
                  
                      updateUserName(docId.toString(), _newUsernameController.text);
+                     _newUsernameController.clear();
                   }, 
                   
                 ),

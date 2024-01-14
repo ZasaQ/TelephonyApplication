@@ -26,7 +26,7 @@ class _AboutPageState extends State<AboutPage> {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
-                  Text("tytul projektu",style:TextStyle(fontSize: 20,color:Colors.lightBlue),),
+                  Text("System Telefonii Komórkowej",style:TextStyle(fontSize: 20,color:Colors.lightBlue),),
                   Text("Przygotowali:",style:TextStyle(fontSize:16)),
                 ],
               ),
@@ -35,7 +35,7 @@ class _AboutPageState extends State<AboutPage> {
                     leading: CircleAvatar(
                       backgroundColor: Colors.grey[300],
                       maxRadius: 30,
-                      child: Text("J",style: TextStyle(fontSize: 25),), //first letter of username
+                      child: Text("J",style: TextStyle(fontSize: 20),), //first letter of username
                     ),
                     title: Text("Jan Kubowicz"),
                     subtitle: Text("jan.kubowicz@admin.student.pk.edu.pl"),
@@ -44,7 +44,7 @@ class _AboutPageState extends State<AboutPage> {
                     leading: CircleAvatar(
                       backgroundColor: Colors.grey[300],
                       maxRadius: 30,
-                      child: Text("S",style: TextStyle(fontSize: 25),), //first letter of username
+                      child: Text("S",style: TextStyle(fontSize: 20),), //first letter of username
                     ),
                     title: Text("Szymon Adamkiewicz"),
                     subtitle: Text("szymon.adamkiewicz@student.pk.edu.pl"),
