@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:telephon_application/components/lr_button.dart';
-import 'package:telephon_application/controllers/getUid.dart';
+import 'package:telephon_application/services/utils.dart';
 
 class NewPassword extends StatefulWidget {
   const NewPassword({super.key});
