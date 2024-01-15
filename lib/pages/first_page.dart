@@ -1,8 +1,4 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
-
-
-import 'dart:convert';
-
 import 'package:awesome_notifications/awesome_notifications.dart';
 
 
@@ -12,10 +8,6 @@ import 'package:flutter/material.dart';
 
 import 'package:telephon_application/components/appBar.dart';
 import 'package:telephon_application/services/utils.dart';
-
-import 'package:telephon_application/models/call_model.dart';
-import 'package:telephon_application/models/user_model.dart';
-import 'package:telephon_application/pages/call.dart';
 
 import 'package:telephon_application/pages/callList_page.dart';
 import 'package:telephon_application/pages/messages.dart';
@@ -28,43 +20,9 @@ class FirstPage extends StatefulWidget {
   State<FirstPage> createState() => _FirstPageState();
 }
 class _FirstPageState extends State<FirstPage> {
-  handleNotification() {
-    if (widget.receivedAction != null) {
-      Map userMap = widget.receivedAction!.payload!;
-      UserModel user = UserModel(
-          uid: userMap['uid'],
-          name: userMap['name'],
-          email: userMap['email']);
-      CallModel call = CallModel(
-        id: userMap['id'],
-        channel: userMap['channel'],
-        caller: userMap['caller'],
-        called: userMap['called'],
-        active: jsonDecode(userMap['active']),
-        accepted: true,
-        rejected: jsonDecode(userMap['rejected']),
-        connected: true,
-        activationDate: userMap['activationDate']
-      );
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) {
-            return CallPage(user: user, callHandler: call);
-          },
-        ),
-      );
-    }
-  }
-
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(milliseconds: 1000)).then(
-      (value) {
-        handleNotification();
-      },
-    );
   }
 
   Widget buildAdminFunctions() {
