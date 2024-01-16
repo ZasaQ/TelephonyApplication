@@ -22,13 +22,13 @@ class CallPage extends StatefulWidget {
 }
 
 class _CallPageState extends State<CallPage> {
-  RtcEngine? rtcEngine;
-  String? token;
-  int uid = 0;
-  bool localUserJoined = false;
+  RtcEngine? rtcEngine; //Agora engine responsible for creating video call environment
+  String? token; // Agora video call token, each video call has its own unique token
+  int uid = 0; // uid for agora token server
+  bool localUserJoined = false; // flag that informs if caller has joined video call
   String? callID;
-  int? remoteUid;
-  AgoraClient? agoraClient;
+  int? remoteUid; // remote user id of called user
+  AgoraClient? agoraClient; // mainly responsible for video call button handling such as turn camera, mute and disable video
 
   @override
   void initState() {
